@@ -176,7 +176,6 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
                 self.save_progress(response.text)
             return action_result.set_status(phantom.APP_ERROR, "Failed to access API")
 
-
         self.save_progress("Test Connectivity Passed")
         return action_result.set_status(phantom.APP_SUCCESS)
 
@@ -186,6 +185,8 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         :param param: Phantom command parameters
         :param action_result: ActionResult returned by _get_bearer_token
         """
+
+        action_result.add_data(ActionResult(dict(param)))
 
         self.save_progress("Connecting to endpoint")
 
@@ -211,7 +212,8 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
 
         indicator = response['indicators'][0]
         ret_val, response = self._make_rest_call(
-            f'v4/indicator/{indicator["type"]}/{indicator["value"]}', action_result, headers=headers, method="get", params={"include_campaigns": True}
+            f'v4/indicator/{indicator["type"]}/{indicator["value"]}', action_result, headers=headers, method="get",
+            params={"include_campaigns": True}
         )
         if phantom.is_fail(ret_val):
             self.save_progress("Error getting indicator info")
@@ -226,7 +228,8 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
                 categories.add(category)
 
         report_ret_val, report_response = self._make_rest_call(
-            f'v4/indicator/{indicator["id"]}/reports', action_result, headers=headers, method="get", params={"include_campaigns": True}
+            f'v4/indicator/{indicator["id"]}/reports', action_result, headers=headers, method="get",
+            params={"include_campaigns": True}
         )
 
         if phantom.is_fail(report_ret_val):
@@ -248,7 +251,8 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         if indicator["type"] == "md5":
             output["associated_md5"] = [h["value"] for h in indicator["associated_hashes"] if h["type"] == "md5"][0]
             output["associated_sha1"] = [h["value"] for h in indicator["associated_hashes"] if h["type"] == "sha1"][0]
-            output["associated_sha256"] = [h["value"] for h in indicator["associated_hashes"] if h["type"] == "sha256"][0]
+            output["associated_sha256"] = [h["value"] for h in indicator["associated_hashes"] if h["type"] == "sha256"][
+                0]
 
         action_result.add_data(output)
 
@@ -260,6 +264,8 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         :param param: Phantom command parameters
         :param action_result: ActionResult returned by _get_bearer_token
         """
+
+        action_result.add_data(ActionResult(dict(param)))
         self.save_progress("Connecting to endpoint")
 
         headers = {
@@ -316,6 +322,8 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         :param param: Phantom command parameters
         :param action_result: ActionResult returned by _get_bearer_token
         """
+
+        action_result.add_data(ActionResult(dict(param)))
         self.save_progress("Connecting to endpoint")
 
         headers = {
@@ -344,6 +352,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         :param param: Phantom command parameters
         :param action_result: ActionResult returned by _get_bearer_token
         """
+        action_result.add_data(ActionResult(dict(param)))
         self.save_progress("Connecting to endpoint")
 
         headers = {
@@ -396,6 +405,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         :param action_result: ActionResult returned by _get_bearer_token
         """
 
+        action_result.add_data(ActionResult(dict(param)))
         self.save_progress("Connecting to endpoint")
 
         headers = {
@@ -440,6 +450,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         :param param: Phantom command parameters
         :param action_result: ActionResult returned by _get_bearer_token
         """
+        action_result.add_data(ActionResult(dict(param)))
         self.save_progress("Connecting to endpoint")
 
         headers = {
@@ -467,6 +478,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         :param param: Phantom command parameters
         :param action_result: ActionResult returned by _get_bearer_token
         """
+        action_result.add_data(ActionResult(dict(param)))
         self.save_progress("Connecting to endpoint")
 
         headers = {
@@ -503,11 +515,11 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
 
             output["objects"].extend(response["objects"])
 
-
         self.save_progress("Report retrieved successfully")
 
         if param.get("report_type") and param.get("report_type") != "":
-            new_output = list(filter(lambda r: param.get("report_type").upper() == r["report_type"].upper(), output["objects"]))
+            new_output = list(
+                filter(lambda r: param.get("report_type").upper() == r["report_type"].upper(), output["objects"]))
             output['objects'] = new_output
 
         action_result.add_data(output)
@@ -520,6 +532,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         :param param: Phantom command parameters
         :param action_result: ActionResult returned by _get_bearer_token
         """
+        action_result.add_data(ActionResult(dict(param)))
         self.save_progress("Connecting to endpoint")
 
         headers = {
@@ -562,7 +575,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         current_time = int(time.time())
 
         token_expired = (self._state.get("bearer_token") is None) or (
-            self._state.get("bearer_token_expiration") <= current_time)
+                self._state.get("bearer_token_expiration") <= current_time)
 
         if token_expired:
             config = self.get_config()

@@ -21,23 +21,27 @@
         "api_key": {
             "data_type": "string",
             "description": "Mandiant Threat Intelligence API Key",
-            "required": true
+            "required": true,
+            "order": 0
         },
         "secret_key": {
             "data_type": "password",
             "description": "Mandiant Threat Intelligence API Secret Key",
-            "required": true
+            "required": true,
+            "order": 1
         },
         "base_url": {
             "data_type": "string",
             "description": "Base URL for Mandiant Threat Intelligence API",
-            "default": "https://api.intelligence.mandiant.com/"
+            "default": "https://api.intelligence.mandiant.com/",
+            "order": 2
         },
         "verify_server_cert": {
             "data_type": "boolean",
             "description": "Require SSL Verification",
             "required": true,
-            "default": true
+            "default": true,
+            "order": 3
         }
     },
     "actions": [
@@ -70,17 +74,15 @@
                         "sha256",
                         "url"
                     ],
-                    "primary": true
+                    "primary": true,
+                    "order": 0
                 }
             },
             "output": [
                 {
-                    "data_path": "action_result.parameter.path",
+                    "data_path": "action_result.parameter.indicator",
                     "data_type": "string",
-                    "contains": [
-                        "file path"
-                    ],
-                    "column_name": "Path",
+                    "column_name": "Indicator",
                     "column_order": 0
                 },
                 {
@@ -188,17 +190,15 @@
                     "contains": [
                         "mandiant campaign"
                     ],
-                    "primary": true
+                    "primary": true,
+                    "order": 0
                 }
             },
             "output": [
                 {
-                    "data_path": "action_result.parameter.path",
+                    "data_path": "action_result.parameter.campaign",
                     "data_type": "string",
-                    "contains": [
-                        "file path"
-                    ],
-                    "column_name": "Path",
+                    "column_name": "Campaign",
                     "column_order": 0
                 },
                 {
@@ -482,17 +482,15 @@
                     "primary": true,
                     "contains": [
                         "mandiant threatactor"
-                    ]
+                    ],
+                    "order": 0
                 }
             },
             "output": [
                 {
-                    "data_path": "action_result.parameter.path",
+                    "data_path": "action_result.parameter.threat_actor",
                     "data_type": "string",
-                    "contains": [
-                        "file path"
-                    ],
-                    "column_name": "Path",
+                    "column_name": "Threat Actor",
                     "column_order": 0
                 },
                 {
@@ -833,16 +831,14 @@
                     "contains": [
                         "mandiant vulnerability",
                         "cve"
-                    ]
+                    ],
+                    "order": 0
                 }
             },
             "output": [
                 {
-                    "data_path": "action_result.parameter.path",
+                    "data_path": "action_result.parameter.vulnerability",
                     "data_type": "string",
-                    "contains": [
-                        "file path"
-                    ],
                     "column_name": "Path",
                     "column_order": 0
                 },
@@ -1119,16 +1115,14 @@
                     "primary": true,
                     "contains": [
                         "mandiant malwarefamily"
-                    ]
+                    ],
+                    "order": 0
                 }
             },
             "output": [
                 {
-                    "data_path": "action_result.parameter.path",
+                    "data_path": "action_result.parameter.malware_family",
                     "data_type": "string",
-                    "contains": [
-                        "file path"
-                    ],
                     "column_name": "Path",
                     "column_order": 0
                 },
@@ -1301,17 +1295,15 @@
                     "primary": true,
                     "contains": [
                         "mandiant report"
-                    ]
+                    ],
+                    "order": 0
                 }
             },
             "output": [
                 {
-                    "data_path": "action_result.parameter.path",
+                    "data_path": "action_result.parameter.report_id",
                     "data_type": "string",
-                    "contains": [
-                        "file path"
-                    ],
-                    "column_name": "Path",
+                    "column_name": "Report ID",
                     "column_order": 0
                 },
                 {
@@ -1364,7 +1356,8 @@
                 "days": {
                     "description": "Days to retrieve reports from",
                     "data_type": "numeric",
-                    "primary": true
+                    "primary": true,
+                    "order": 0
                 },
                 "report_type": {
                     "description": "Report Type Filter",
@@ -1386,24 +1379,28 @@
                         "Trends and Forecasting",
                         "Vulnerability",
                         "Weekly Vulnerability Exploitation Report"
-                    ]
+                    ],
+                    "order": 1
                 }
             },
             "output": [
                 {
-                    "data_path": "action_result.parameter.path",
-                    "data_type": "string",
-                    "contains": [
-                        "file path"
-                    ],
-                    "column_name": "Path",
+                    "data_path": "action_result.parameter.days",
+                    "data_type": "numeric",
+                    "column_name": "Days",
                     "column_order": 0
+                },
+                {
+                    "data_path": "action_result.parameter.report_type",
+                    "data_type": "string",
+                    "column_name": "Report Type Filter",
+                    "column_order": 1
                 },
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "column_name": "Status",
-                    "column_order": 1,
+                    "column_order": 2,
                     "example_values": [
                         "success",
                         "failed"
@@ -1449,17 +1446,15 @@
                 "query": {
                     "description": "Search query",
                     "data_type": "string",
-                    "primary": true
+                    "primary": true,
+                    "order": 0
                 }
             },
             "output": [
                 {
-                    "data_path": "action_result.parameter.path",
+                    "data_path": "action_result.parameter.query",
                     "data_type": "string",
-                    "contains": [
-                        "file path"
-                    ],
-                    "column_name": "Path",
+                    "column_name": "Search Query",
                     "column_order": 0
                 },
                 {

@@ -1,7 +1,6 @@
 # This file is responsible for any manipulation or parsing of data prior to rendering it as part of a widget
 
 def get_ctx_result(result):
-
     ctx_result = {}
     param = result.get_param()
     summary = result.get_summary()
@@ -17,6 +16,7 @@ def get_ctx_result(result):
 
     return ctx_result
 
+
 def display_indicator(provides, all_app_runs, context):
     context['results'] = results = []
     for _, action_results in all_app_runs:
@@ -28,6 +28,7 @@ def display_indicator(provides, all_app_runs, context):
             results.append(ctx_result)
 
     return 'mandiantthreatintelligence_view_indicator.html'
+
 
 def display_campaign(provides, all_app_runs, context):
     context['results'] = results = []
@@ -41,6 +42,7 @@ def display_campaign(provides, all_app_runs, context):
 
     return 'mandiantthreatintelligence_view_campaign.html'
 
+
 def display_threat_actor(provides, all_app_runs, context):
     context['results'] = results = []
     for _, action_results in all_app_runs:
@@ -51,6 +53,7 @@ def display_threat_actor(provides, all_app_runs, context):
 
             results.append(ctx_result)
     return 'mandiantthreatintelligence_view_threat_actor.html'
+
 
 def display_vulnerability(provides, all_app_runs, context):
     context['results'] = results = []
@@ -63,6 +66,7 @@ def display_vulnerability(provides, all_app_runs, context):
             results.append(ctx_result)
     return 'mandiantthreatintelligence_view_vulnerability.html'
 
+
 def display_malware_family(provides, all_app_runs, context):
     context['results'] = results = []
     for _, action_results in all_app_runs:
@@ -74,6 +78,7 @@ def display_malware_family(provides, all_app_runs, context):
             results.append(ctx_result)
     return 'mandiantthreatintelligence_view_malware_family.html'
 
+
 def display_report(provides, all_app_runs, context):
     context['results'] = results = []
     for _, action_results in all_app_runs:
@@ -84,6 +89,7 @@ def display_report(provides, all_app_runs, context):
 
             results.append(ctx_result)
     return 'mandiantthreatintelligence_view_report.html'
+
 
 def display_report_list(provides, all_app_runs, context):
     context['results'] = results = []

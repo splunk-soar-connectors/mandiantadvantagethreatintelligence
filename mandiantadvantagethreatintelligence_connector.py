@@ -55,7 +55,6 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
     def _process_html_response(self, response, action_result):
         # An html response, treat it like an error
         response.raise_for_status()
-        status_code = response.status_code
 
         try:
             html_text = response.text
@@ -417,7 +416,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         }
 
         ret_val, response = self._make_rest_call(
-            f'v4/search', action_result, headers=headers, method="post", json=data
+            'v4/search', action_result, headers=headers, method="post", json=data
         )
         if phantom.is_fail(ret_val):
             self.save_progress("Error performing search")
@@ -431,7 +430,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
 
             data["next"] = response["next"]
             ret_val, response = self._make_rest_call(
-                f'v4/search', action_result, headers=headers, method="post", json=data
+                'v4/search', action_result, headers=headers, method="post", json=data
             )
             if phantom.is_fail(ret_val):
                 self.save_progress("Error performing search")
@@ -491,7 +490,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         }
 
         ret_val, response = self._make_rest_call(
-            f'v4/reports', action_result, headers=headers, params=query, method="get"
+            'v4/reports', action_result, headers=headers, params=query, method="get"
         )
 
         if phantom.is_fail(ret_val):
@@ -506,7 +505,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
             query = {"next": response["next"]}
 
             ret_val, response = self._make_rest_call(
-                f'v4/reports', action_result, headers=headers, params=query, method="get"
+                'v4/reports', action_result, headers=headers, params=query, method="get"
             )
 
             if phantom.is_fail(ret_val):

@@ -21,6 +21,9 @@ Retrieve information about a Vulnerability.  Accepts a "CVE ID" or "Mandiant Vul
 ### lookup malware family
 Retrieve information about a Malware Family.  Accepts a "Mandiant MalwareFamily"
 
+### lookup campaign
+Retrieve information about a Campaign.  Accepts a "Mandiant Campaign"
+
 ### lookup report
 Retrieve and display a Mandiant Report.  Accepts a "Mandiant Report"
 

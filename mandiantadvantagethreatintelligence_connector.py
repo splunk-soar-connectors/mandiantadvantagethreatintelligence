@@ -184,9 +184,6 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         :param param: Phantom command parameters
         :param action_result: ActionResult returned by _get_bearer_token
         """
-
-        action_result.add_data(ActionResult(dict(param)))
-
         self.save_progress("Connecting to endpoint")
 
         headers = {
@@ -263,8 +260,6 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         :param param: Phantom command parameters
         :param action_result: ActionResult returned by _get_bearer_token
         """
-
-        action_result.add_data(ActionResult(dict(param)))
         self.save_progress("Connecting to endpoint")
 
         headers = {
@@ -321,8 +316,6 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         :param param: Phantom command parameters
         :param action_result: ActionResult returned by _get_bearer_token
         """
-
-        action_result.add_data(ActionResult(dict(param)))
         self.save_progress("Connecting to endpoint")
 
         headers = {
@@ -351,7 +344,6 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         :param param: Phantom command parameters
         :param action_result: ActionResult returned by _get_bearer_token
         """
-        action_result.add_data(ActionResult(dict(param)))
         self.save_progress("Connecting to endpoint")
 
         headers = {
@@ -403,8 +395,6 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         :param param: Phantom command parameters
         :param action_result: ActionResult returned by _get_bearer_token
         """
-
-        action_result.add_data(ActionResult(dict(param)))
         self.save_progress("Connecting to endpoint")
 
         headers = {
@@ -449,7 +439,6 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         :param param: Phantom command parameters
         :param action_result: ActionResult returned by _get_bearer_token
         """
-        action_result.add_data(ActionResult(dict(param)))
         self.save_progress("Connecting to endpoint")
 
         headers = {
@@ -477,7 +466,6 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         :param param: Phantom command parameters
         :param action_result: ActionResult returned by _get_bearer_token
         """
-        action_result.add_data(ActionResult(dict(param)))
         self.save_progress("Connecting to endpoint")
 
         headers = {
@@ -531,7 +519,6 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         :param param: Phantom command parameters
         :param action_result: ActionResult returned by _get_bearer_token
         """
-        action_result.add_data(ActionResult(dict(param)))
         self.save_progress("Connecting to endpoint")
 
         headers = {

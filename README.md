@@ -27,5 +27,5 @@ Retrieve and display a Mandiant Report.  Accepts a "Mandiant Report"
 ### list reports
 Retrieve a list of reports based on a given date range and an optional Report Type filter.
 
-### search Mandiant
+### search mandiant
 Searches the Mandiant TI API for a given string

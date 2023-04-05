@@ -1,0 +1,265 @@
+{% extends 'widgets/widget_template.html' %}
+{% load custom_template %}
+
+{% block custom_title_prop %}{% if title_logo %}style="background-size: auto 60%; background-position: 50%;
+    background-repeat: no-repeat; background-image: url('/app_resource/{{ title_logo }}');"{% endif %}{% endblock %}
+{% block title1 %}{{ title1 }}{% endblock %}
+{% block title2 %}{{ title2 }}{% endblock %}
+{% block custom_tools %}
+{% endblock %}
+
+{% block widget_content %} <!-- Main Start Block -->
+
+    <style>
+        .mandiantthreatintelligence-app a:hover {
+            text-decoration: underline;
+        }
+
+        .mandiantthreatintelligence-app .wf-table-vertical {
+            width: initial;
+            font-size: 12px;
+        }
+
+        .mandiantthreatintelligence-app .wf-table-vertical td {
+            padding: 5px;
+            border: 1px solid;
+        }
+
+        .mandiantthreatintelligence-app .wf-table-vertical th {
+            padding: 5px;
+            border: 1px solid;
+        }
+
+        .mandiantthreatintelligence-app .wf-table-horizontal {
+            margin-right: 10px;
+            width: 100%;
+            border: 1px solid;
+            table-layout: fixed;
+            font-size: 12px;
+        }
+
+        .mandiantthreatintelligence-app .wf-table-horizontal th {
+            text-align: center;
+            border: 1px solid;
+            text-transform: uppercase;
+            font-weight: normal;
+            padding: 5px;
+        }
+
+        .mandiantthreatintelligence-app .wf-table-horizontal td {
+            border: 1px solid;
+            padding: 5px;
+            padding-left: 4px;
+            word-wrap: break-word;
+        }
+
+        .mandiantthreatintelligence-app .wf-h3-style {
+            font-size: 20px;
+        }
+
+        .mandiantthreatintelligence-app .wf-h4-style {
+            font-size: 16px;
+        }
+
+        .mandiantthreatintelligence-app .wf-h5-style {
+            font-size: 14px;
+        }
+
+        .mandiantthreatintelligence-app .wf-subheader-style {
+            font-size: 12px;
+        }
+
+        a.no-word-wrap {
+            text-decoration: None !important
+        }
+
+    </style>
+
+    <div class="mandiantthreatintelligence-app"
+         style="overflow: auto; width: 100%; height: 100%; padding-left:10px; padding-right:10px"> <!-- Main Div -->
+        {% for result in results %} <!-- loop for each result -->
+            <br>
+            {% if result.data %}
+                {% for indicator in result.data %}
+                    <table class="wf-table-vertical">
+                        <tr>
+                            <th>Value</th>
+                            <td>
+                                {% if indicator.type == 'ipv4' %}
+                                    <a class="no-word-wrap" href="javascript:;"
+                                       onclick="context_menu(this, [{'contains': ['ip'], 'value':'{{ indicator.value }}' }], 0, {{ container.id }}, null, false);">
+                                        {{ indicator.value }}
+                                        &nbsp;
+                                        <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                                    </a>
+                                {% elif indicator.type == 'fqdn' %}
+                                    <a class="no-word-wrap" href="javascript:;"
+                                       onclick="context_menu(this, [{'contains': ['domain'], 'value':'{{ indicator.value }}' }], 0, {{ container.id }}, null, false);">
+                                        {{ indicator.value }}
+                                        &nbsp;
+                                        <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                                    </a>
+                                {% elif indicator.type == 'md5' %}
+                                    <table class="wf-table-vertical">
+                                        <tr>
+                                            <td>MD5</td>
+                                            <td>
+                                                <a class="no-word-wrap" href="javascript:;"
+                                                   onclick="context_menu(this, [{'contains': ['hash', 'md5'], 'value':'{{ indicator.associated_md5 }}' }], 0, {{ container.id }}, null, false);">
+                                                    {{ indicator.associated_md5 }}
+                                                    &nbsp;
+                                                    <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>SHA1</td>
+                                            <td>
+                                                <a class="no-word-wrap" href="javascript:;"
+                                                   onclick="context_menu(this, [{'contains': ['hash', 'sha1'], 'value':'{{ indicator.associated_sha1 }}' }], 0, {{ container.id }}, null, false);">
+                                                    {{ indicator.associated_sha1 }}
+                                                    &nbsp;
+                                                    <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>SHA256</td>
+                                            <td>
+                                                <a class="no-word-wrap" href="javascript:;"
+                                                   onclick="context_menu(this, [{'contains': ['hash', 'sha256'], 'value':'{{ indicator.associated_sha256 }}' }], 0, {{ container.id }}, null, false);">
+                                                    {{ indicator.associated_sha256 }}
+                                                    &nbsp;
+                                                    <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                {% else %}
+                                    {{ indicator.value }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Type</th>
+                            {% if indicator.type == 'ipv4' %}<td>IPv4</td>{% endif %}
+                            {% if indicator.type == 'md5' %}<td>MD5</td>{% endif %}
+                            {% if indicator.type == 'fqdn' %}<td>FQDN</td>{% endif %}
+                            {% if indicator.type == 'url' %}<td>URL</td>{% endif %}
+                        </tr>
+                        <tr>
+                            <th>Confidence Score</th>
+                            <td>{{ indicator.confidence }}</td>
+                        </tr>
+                        <tr>
+                            <th>First Seen</th>
+                            <td>{{ indicator.first_seen }}</td>
+                        </tr>
+                        <tr>
+                            <th>Last Seen</th>
+                            <td>{{ indicator.last_seen }}</td>
+                        </tr>
+                        <tr>
+                            <th>Categories</th>
+                            {% if indicator.categories|length != 0 %}
+                                <td>{{ indicator.categories | join:", " }}</td>
+                            {% else %}
+                                <td>No known categorization</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <th>Attributed Associations</th>
+                            {% if indicator.attributed_associations|length != 0 %}
+                                <td>
+                                    <table class="wf-table-vertical">
+                                    {% for attribution in indicator.attributed_associations %}
+                                        <tr>
+                                            <td>
+                                                {% if attribution.type == 'malware' %}
+                                                <a class="no-word-wrap" href="javascript:;"
+                                                   onclick="context_menu(this, [{'contains': ['mandiant malwarefamily'], 'value':'{{ attribution.name }}' }], 0, {{ container.id }}, null, false);">
+                                                    {{ attribution.name }}
+                                        &nbsp;
+                                                    <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                                                </a>
+                                                {% elif attribution.type == 'threat-actor' %}
+                                                <a class="no-word-wrap" href="javascript:;"
+                                                   onclick="context_menu(this, [{'contains': ['mandiant threatactor'], 'value':'{{ attribution.name }}' }], 0, {{ container.id }}, null, false);">
+                                                    {{ attribution.name }}
+                                        &nbsp;
+                                                    <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                                                </a>
+                                                {% else %}
+                                                {{ attribution.name }}
+                                                {% endif %}
+                                            </td>
+
+                                            <td>{{ attribution.type }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </table>
+                                </td>
+                            {% else %}
+                                <td>No known attribution</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <th>Associated Reports</th>
+                            <td>
+                                {% if indicator.reports %}
+                                <table class="wf-table-vertical">
+                                    {% for report in indicator.reports %}
+                                    <tr>
+                                        <td>
+                                            <a class="no-word-wrap" href="javascript:;"
+                                               onclick="context_menu(this, [{'contains': ['mandiant report'], 'value':'{{ report.report_id }}' }], 0, {{ container.id }}, null, false);">
+                                                {{ report.title }}
+                                                &nbsp;
+                                                <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+                                {% else %}
+                                No known associated reports
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Associated Campaigns</th>
+                            <td>
+                                {% if indicator.campaigns %}
+                                <table class="wf-table-vertical">
+                                    {% for campaign in indicator.campaigns %}
+                                    <tr>
+                                        <td>
+                                            <a class="no-word-wrap" href="javascript:;"
+                                               onclick="context_menu(this, [{'contains': ['mandiant campaign'], 'value':'{{ campaign.id }}' }], 0, {{ container.id }}, null, false);">
+                                                {{ campaign.name }} - {{ campaign.title }}
+                                                &nbsp;
+                                                <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+                                {% else %}
+                                No known associated campaigns
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                {% endfor %}
+            {% else %}
+                <h3 class="wf-h4-style">No data found</h3>
+            {% endif %}
+
+            <br>
+
+            <!------------------- For each Result END ---------------------->
+
+        {% endfor %} <!-- loop for each result end -->
+    </div> <!-- Main Div -->
+
+{% endblock %} <!-- Main Start Block -->

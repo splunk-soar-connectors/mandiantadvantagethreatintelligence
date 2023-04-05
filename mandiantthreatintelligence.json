@@ -1,0 +1,1195 @@
+{
+    "appid": "352751a5-fc5a-4376-8a0f-285b270ab9b6",
+    "name": "Mandiant Threat Intelligence",
+    "description": "Integrate with Mandiant Threat Intelligence to pull the latest information about indicators",
+    "type": "information",
+    "product_vendor": "Mandiant",
+    "logo": "mandiantthreatintelligence.svg",
+    "logo_dark": "mandiantthreatintelligence_dark.svg",
+    "product_name": "Threat Intelligence for Splunk SOAR",
+    "python_version": "3",
+    "product_version_regex": ".*",
+    "publisher": "Mandiant",
+    "license": "Copyright (c) Mandiant, 2022",
+    "app_version": "1.0.0",
+    "utctime_updated": "2022-07-19T17:56:46.520303Z",
+    "package_name": "phantom_mandiantthreatintelligence",
+    "main_module": "mandiantthreatintelligence_connector.py",
+    "min_phantom_version": "5.2.1.78411",
+    "app_wizard_version": "1.0.0",
+    "configuration": {
+        "api_key": {
+            "data_type": "string",
+            "description": "Mandiant Threat Intelligence API Key",
+            "required": true
+        },
+        "secret_key": {
+            "data_type": "password",
+            "description": "Mandiant Threat Intelligence API Secret Key",
+            "required": true
+        },
+        "base_url": {
+            "data_type": "string",
+            "description": "Base URL for Mandiant Threat Intelligence API",
+            "default": "https://api.intelligence.mandiant.com/"
+        },
+        "verify_server_cert": {
+            "data_type": "boolean",
+            "description": "Require SSL Verification",
+            "required": true,
+            "default": true
+        }
+    },
+    "actions": [
+        {
+            "action": "test connectivity",
+            "identifier": "test_connectivity",
+            "description": "Validate the asset configuration for connectivity using supplied configuration",
+            "verbose": "",
+            "type": "test",
+            "read_only": true,
+            "parameters": {},
+            "output": [],
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "lookup indicator",
+            "identifier": "indicator_lookup",
+            "description": "Retrieve indicator information",
+            "type": "investigate",
+            "read_only": false,
+            "parameters": {
+                "indicator": {
+                    "description": "Indicator to look up",
+                    "data_type": "string",
+                    "contains": [
+                        "domain",
+                        "hash",
+                        "ip",
+                        "md5",
+                        "sha1",
+                        "sha256",
+                        "url"
+                    ],
+                    "primary": true
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.parameter.indicator",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.type",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.confidence",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.categories.*",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.attributed_associations.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.first_seen",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.last_seen",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.associated_md5",
+                    "data_type": "string",
+                    "contains": [
+                        "hash",
+                        "md5"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.associated_sha1",
+                    "data_type": "string",
+                    "contains": [
+                        "hash",
+                        "sha1"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.associated_sha256",
+                    "data_type": "string",
+                    "contains": [
+                        "hash",
+                        "sha256"
+                    ]
+                }
+            ],
+            "render": {
+                "type": "custom",
+                "width": 10,
+                "height": 5,
+                "view": "mandiantthreatintelligence_view.display_indicator",
+                "title": "Threat Indicator"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "lookup campaign",
+            "identifier": "campaign_lookup",
+            "description": "Retrieve campaign information",
+            "type": "investigate",
+            "read_only": false,
+            "parameters": {
+                "campaign": {
+                    "description": "Campaign to look up",
+                    "data_type": "string",
+                    "contains": [
+                        "mandiant campaign"
+                    ],
+                    "primary": true
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.data.*.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.type",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.tools.*.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.tools.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.tools.*.attribution_scope",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.actors.*.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.actors.*.iso2",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.actors.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.actors.*.country_name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.actors.*.last_updated",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.aliases.actor.*",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.aliases.malware.*",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.aliases.campaign.*",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.malware.*.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.malware.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.malware.*.last_seen",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.malware.*.first_seen",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.malware.*.attribution_scope",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.reports.*.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.reports.*.title",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.reports.*.version",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.reports.*.audience.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.reports.*.audience.*.license",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.reports.*.report_id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.reports.*.report_type",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.reports.*.published_date",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.reports.*.attribution_scope",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.industries.*.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.industries.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.industries.*.last_seen",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.industries.*.first_seen",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.industries.*.attribution_scope",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.short_name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.description",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.campaign_type",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.profile_updated",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.vulnerabilities.*.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.vulnerabilities.*.type",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.vulnerabilities.*.cve_id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.vulnerabilities.*.attribution_scope",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.target_locations.regions.*.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.target_locations.regions.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.target_locations.regions.*.type",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.target_locations.regions.*.attribution_scope",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.target_locations.countries.*.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.target_locations.countries.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.target_locations.countries.*.type",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.target_locations.countries.*.attribution_scope",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.target_locations.countries.*.iso2",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.target_locations.countries.*.region",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.target_locations.countries.*.sub_region",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.target_locations.sub_regions.*.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.target_locations.sub_regions.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.target_locations.sub_regions.*.type",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.target_locations.sub_regions.*.attribution_scope",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.target_locations.sub_regions.*.region",
+                    "data_type": "string"
+                }
+            ],
+            "render": {
+                "type": "custom",
+                "width": 10,
+                "height": 5,
+                "view": "mandiantthreatintelligence_view.display_campaign",
+                "title": "Campaign"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "lookup threat actor",
+            "identifier": "threat_actor_lookup",
+            "description": "Retrieve threat actor information",
+            "type": "investigate",
+            "read_only": false,
+            "parameters": {
+                "threat_actor": {
+                    "description": "Threat actor to look up",
+                    "data_type": "string",
+                    "primary": true,
+                    "contains": [
+                        "mandiant threatactor"
+                    ]
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.data.*.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.cve.*.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.cve.*.cve_id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.cve.*.attribution_scope",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.type",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.tools.*.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.tools.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.tools.*.attribution_scope",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.aliases.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.aliases.*.attribution_scope",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.malware.*.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.malware.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.malware.*.last_seen",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.malware.*.first_seen",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.malware.*.attribution_scope",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.audience.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.audience.*.license",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.observed.*.recent",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.observed.*.earliest",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.reports.*.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.reports.*.title",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.reports.*.version",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.reports.*.audience.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.reports.*.audience.*.license",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.reports.*.report_id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.reports.*.report_type",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.reports.*.published_date",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.reports.*.attribution_scope",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.observed.*.attribution_scope",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.locations.source.*.region.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.locations.source.*.region.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.locations.source.*.region.attribution_scope",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.locations.source.*.country.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.locations.source.*.country.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.locations.source.*.country.attribution_scope",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.locations.source.*.sub_region.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.locations.source.*.sub_region.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.locations.source.*.sub_region.attribution_scope",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.locations.target.*.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.locations.target.*.iso2",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.locations.target.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.locations.target.*.region",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.locations.target.*.sub_region",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.locations.target.*.attribution_scope",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.locations.target_region.*.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.locations.target_region.*.key",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.locations.target_region.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.locations.target_region.*.attribution_scope",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.locations.target_sub_region.*.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.locations.target_sub_region.*.key",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.locations.target_sub_region.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.locations.target_sub_region.*.region",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.locations.target_sub_region.*.attribution_scope",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.industries.*.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.industries.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.industries.*.last_seen",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.industries.*.first_seen",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.industries.*.attribution_scope",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.intel_free",
+                    "data_type": "boolean"
+                },
+                {
+                    "data_path": "action_result.data.*.description",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.motivations.*.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.motivations.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.motivations.*.attribution_scope",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.last_updated",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.is_publishable",
+                    "data_type": "boolean"
+                },
+                {
+                    "data_path": "action_result.data.*.associated_uncs.*.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.associated_uncs.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.associated_uncs.*.attribution_scope",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.associated_uncs.*.attribution_scope",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.last_activity_time",
+                    "data_type": "string"
+                }
+            ],
+            "render": {
+                "type": "custom",
+                "width": 10,
+                "height": 5,
+                "view": "mandiantthreatintelligence_view.display_threat_actor",
+                "title": "Threat Actor"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "lookup vulnerability",
+            "identifier": "vulnerability_lookup",
+            "description": "Retrieve vulnerability information",
+            "type": "investigate",
+            "read_only": false,
+            "parameters": {
+                "vulnerability": {
+                    "description": "CVE ID to look up",
+                    "data_type": "string",
+                    "primary": true,
+                    "contains": [
+                        "mandiant vulnerability",
+                        "cve"
+                    ]
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.data.*.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.cwe",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.type",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.title",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.cve_id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.sources.*.url",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.sources.*.date",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.sources.*.source_name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.sources.*.source_description",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.analysis",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.audience.*",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.exploits.*.md5",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.exploits.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.exploits.*.file_size",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.exploits.*.description",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.exploits.*.exploit_url",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.exploits.*.reliability",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.exploits.*.release_date",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.exploits.*.replication_urls.*",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.intel_free",
+                    "data_type": "boolean"
+                },
+                {
+                    "data_path": "action_result.data.*.description",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.risk_rating",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.workarounds",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.publish_date",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.was_zero_day",
+                    "data_type": "boolean"
+                },
+                {
+                    "data_path": "action_result.data.*.is_publishable",
+                    "data_type": "boolean"
+                },
+                {
+                    "data_path": "action_result.data.*.vulnerable_cpes.*.cpe",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.vulnerable_cpes.*.cpe_title",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.vulnerable_cpes.*.vendor_name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.vulnerable_cpes.*.technology_name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.associated_actors.*.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.associated_actors.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.associated_actors.*.aliases.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.associated_actors.*.aliases.*.attribution_scope",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.associated_actors.*.intel_free",
+                    "data_type": "boolean"
+                },
+                {
+                    "data_path": "action_result.data.*.associated_actors.*.description",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.associated_actors.*.last_updated",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.executive_summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.associated_malware.*.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.associated_malware.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.associated_malware.*.aliases.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.associated_malware.*.has_yara",
+                    "data_type": "boolean"
+                },
+                {
+                    "data_path": "action_result.data.*.associated_malware.*.intel_free",
+                    "data_type": "boolean"
+                },
+                {
+                    "data_path": "action_result.data.*.associated_malware.*.description",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.associated_malware.*.last_updated",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.date_of_disclosure",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.exploitation_state",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.vulnerable_products",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.available_mitigation.*",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.exploitation_vectors.*",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.observed_in_the_wild",
+                    "data_type": "boolean"
+                },
+                {
+                    "data_path": "action_result.data.*.vendor_fix_references.*.url",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.vendor_fix_references.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.exploitation_consequence",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.vendor_fix_references.*.url",
+                    "data_type": "string"
+                }
+            ],
+            "render": {
+                "type": "custom",
+                "width": 10,
+                "height": 5,
+                "view": "mandiantthreatintelligence_view.display_vulnerability",
+                "title": "Vulnerability"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "lookup malware family",
+            "identifier": "malware_family_lookup",
+            "description": "Retrieve malware family information",
+            "type": "investigate",
+            "read_only": false,
+            "parameters": {
+                "malware_family": {
+                    "description": "Malware family to look up",
+                    "data_type": "string",
+                    "primary": true,
+                    "contains": [
+                        "mandiant malwarefamily"
+                    ]
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.data.*.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.cve.*.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.cve.*.cve_id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.type",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.yara.*",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.roles.*",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.actors.*.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.actors.*.iso2",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.actors.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.actors.*.country_name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.actors.*.last_updated",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.aliases.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.malware.*.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.malware.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.audience.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.audience.*.license",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.detections.*",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.industries.*.id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.industries.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.intel_free",
+                    "data_type": "boolean"
+                },
+                {
+                    "data_path": "action_result.data.*.description",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.capabilities.*.name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.capabilities.*.description",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.last_updated",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.is_publishable",
+                    "data_type": "boolean"
+                },
+                {
+                    "data_path": "action_result.data.*.operating_systems.*",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.last_activity_time",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.inherently_malicious",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "type": "custom",
+                "width": 10,
+                "height": 5,
+                "view": "mandiantthreatintelligence_view.display_malware_family",
+                "title": "Malware Family"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "lookup report",
+            "identifier": "report_lookup",
+            "description": "Retrieve Mandiant report",
+            "type": "investigate",
+            "read_only": false,
+            "parameters": {
+                "report_id": {
+                    "description": "Report ID to look up",
+                    "data_type": "string",
+                    "primary": true,
+                    "contains": [
+                        "mandiant report"
+                    ]
+                }
+            },
+            "output": [
+            ],
+            "render": {
+                "type": "custom",
+                "width": 10,
+                "height": 5,
+                "view": "mandiantthreatintelligence_view.display_report",
+                "title": "Report"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "list reports",
+            "identifier": "report_list",
+            "description": "Retrieve Mandiant reports",
+            "type": "investigate",
+            "read_only": false,
+            "parameters": {
+                "days": {
+                    "description": "Days to retrieve reports from",
+                    "data_type": "numeric",
+                    "primary": true
+                },
+                "report_type": {
+                    "description": "Report Type Filter",
+                    "data_type": "string",
+                    "default": "",
+                    "value_list": [
+                        "Actor Profile",
+                        "Event Coverage/Implication",
+                        "Executive Perspective",
+                        "ICS Security Roundup",
+                        "Industry Reporting",
+                        "Malware Profile",
+                        "Network Activity Reports",
+                        "News Analysis",
+                        "Patch Report",
+                        "TTP Deep Dive",
+                        "Threat Activity Alert",
+                        "Threat Activity Report",
+                        "Trends and Forecasting",
+                        "Vulnerability",
+                        "Weekly Vulnerability Exploitation Report"
+                    ]
+                }
+            },
+            "output": [
+            ],
+            "render": {
+                "type": "custom",
+                "width": 10,
+                "height": 5,
+                "view": "mandiantthreatintelligence_view.display_report_list",
+                "title": "Reports List"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "search Mandiant",
+            "identifier": "search_mandiant",
+            "description": "Search Mandiant Threat Intelligence",
+            "type": "investigate",
+            "read_only": false,
+            "parameters": {
+                "query": {
+                    "description": "Search query",
+                    "data_type": "string",
+                    "primary": true
+                }
+            },
+            "output": [
+            ],
+            "render": {
+                "type": "custom",
+                "width": 10,
+                "height": 5,
+                "view": "mandiantthreatintelligence_view.display_search",
+                "title": "Search"
+            },
+            "versions": "EQ(*)"
+        }
+    ]
+}

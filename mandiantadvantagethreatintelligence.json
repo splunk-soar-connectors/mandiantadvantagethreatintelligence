@@ -1,6 +1,6 @@
 {
     "appid": "352751a5-fc5a-4376-8a0f-285b270ab9b6",
-    "name": "Mandiant Threat Intelligence",
+    "name": "Mandiant Advantage Threat Intelligence",
     "description": "Integrate with Mandiant Threat Intelligence to pull the latest information about indicators",
     "type": "information",
     "product_vendor": "Mandiant",
@@ -13,9 +13,9 @@
     "license": "Copyright (c) Mandiant, 2022",
     "app_version": "1.0.0",
     "utctime_updated": "2022-07-19T17:56:46.520303Z",
-    "package_name": "phantom_mandiantthreatintelligence",
+    "package_name": "phantom_mandiantadvantagethreatintelligence",
     "main_module": "mandiantthreatintelligence_connector.py",
-    "min_phantom_version": "5.2.1.78411",
+    "min_phantom_version": "5.3.0",
     "app_wizard_version": "1.0.0",
     "configuration": {
         "api_key": {
@@ -45,7 +45,6 @@
             "action": "test connectivity",
             "identifier": "test_connectivity",
             "description": "Validate the asset configuration for connectivity using supplied configuration",
-            "verbose": "",
             "type": "test",
             "read_only": true,
             "parameters": {},
@@ -1168,7 +1167,7 @@
             "versions": "EQ(*)"
         },
         {
-            "action": "search Mandiant",
+            "action": "search mandiant",
             "identifier": "search_mandiant",
             "description": "Search Mandiant Threat Intelligence",
             "type": "investigate",

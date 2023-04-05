@@ -254,7 +254,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _handle_get_threat_actor(self, param, action_result):
+    def _handle_threat_actor_lookup(self, param, action_result):
         """
         Retrieve information and reports for a given Threat Actor from Mandiant TI
         :param param: Phantom command parameters
@@ -310,7 +310,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _handle_get_vulnerability(self, param, action_result):
+    def _handle_vulnerability_lookup(self, param, action_result):
         """
         Retrieve information about a Vulnerability from Mandiant TI
         :param param: Phantom command parameters
@@ -338,7 +338,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _handle_get_malware_family(self, param, action_result):
+    def _handle_malware_family_lookup(self, param, action_result):
         """
         Retrieve information and reports for a Malware Family from Mandiant TI
         :param param: Phantom command parameters
@@ -389,7 +389,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _handle_do_search(self, param, action_result):
+    def _handle_search_mandiant(self, param, action_result):
         """
         Search Mandiant TI for a given string
         :param param: Phantom command parameters
@@ -434,7 +434,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _handle_get_report(self, param, action_result):
+    def _handle_report_lookup(self, param, action_result):
         """
         Retrieve a single report, in HTML format, from Mandiant TI
         :param param: Phantom command parameters
@@ -461,7 +461,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _handle_list_reports(self, param, action_result: ActionResult):
+    def _handle_report_list(self, param, action_result: ActionResult):
         """
         Retrieve a list of reports from Mandiant TI and optionally filters by report_type
         :param param: Phantom command parameters
@@ -606,12 +606,12 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
             'test_connectivity': self._handle_test_connectivity,
             'indicator_lookup': self._handle_indicator_lookup,
             'campaign_lookup': self._handle_campaign_lookup,
-            'threat_actor_lookup': self._handle_get_threat_actor,
-            'vulnerability_lookup': self._handle_get_vulnerability,
-            'malware_family_lookup': self._handle_get_malware_family,
-            'report_lookup': self._handle_get_report,
-            'report_list': self._handle_list_reports,
-            'search_mandiant': self._handle_do_search
+            'threat_actor_lookup': self._handle_threat_actor_lookup,
+            'vulnerability_lookup': self._handle_vulnerability_lookup,
+            'malware_family_lookup': self._handle_malware_family_lookup,
+            'report_lookup': self._handle_report_lookup,
+            'report_list': self._handle_report_list,
+            'search_mandiant': self._handle_search_mandiant
         }
 
         ret_val = function_map[action_id](param, token_status)

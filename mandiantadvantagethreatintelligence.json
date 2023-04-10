@@ -11,15 +11,15 @@
     "product_version_regex": ".*",
     "publisher": "Mandiant",
     "license": "Copyright (c) Mandiant, 2022",
-    "app_version": "1.0.0",
+    "app_version": "1.1.0",
     "utctime_updated": "2022-07-19T17:56:46.520303Z",
     "package_name": "phantom_mandiantadvantagethreatintelligence",
     "main_module": "mandiantadvantagethreatintelligence_connector.py",
-    "min_phantom_version": "5.3.0",
+    "min_phantom_version": "5.5.0",
     "app_wizard_version": "1.0.0",
     "configuration": {
         "api_key": {
-            "data_type": "string",
+            "data_type": "password",
             "description": "Mandiant Threat Intelligence API Key",
             "required": true,
             "order": 0
@@ -44,8 +44,7 @@
             "order": 3
         }
     },
-    "actions": [
-        {
+    "actions": [{
             "action": "test connectivity",
             "identifier": "test_connectivity",
             "description": "Validate the asset configuration for connectivity using supplied configuration",
@@ -78,8 +77,7 @@
                     "order": 0
                 }
             },
-            "output": [
-                {
+            "output": [{
                     "data_path": "action_result.parameter.indicator",
                     "data_type": "string",
                     "column_name": "Indicator",
@@ -194,8 +192,7 @@
                     "order": 0
                 }
             },
-            "output": [
-                {
+            "output": [{
                     "data_path": "action_result.parameter.campaign",
                     "data_type": "string",
                     "column_name": "Campaign",
@@ -486,8 +483,7 @@
                     "order": 0
                 }
             },
-            "output": [
-                {
+            "output": [{
                     "data_path": "action_result.parameter.threat_actor",
                     "data_type": "string",
                     "column_name": "Threat Actor",
@@ -835,8 +831,7 @@
                     "order": 0
                 }
             },
-            "output": [
-                {
+            "output": [{
                     "data_path": "action_result.parameter.vulnerability",
                     "data_type": "string",
                     "column_name": "Path",
@@ -1119,8 +1114,7 @@
                     "order": 0
                 }
             },
-            "output": [
-                {
+            "output": [{
                     "data_path": "action_result.parameter.malware_family",
                     "data_type": "string",
                     "column_name": "Path",
@@ -1299,8 +1293,7 @@
                     "order": 0
                 }
             },
-            "output": [
-                {
+            "output": [{
                     "data_path": "action_result.parameter.report_id",
                     "data_type": "string",
                     "column_name": "Report ID",
@@ -1383,8 +1376,7 @@
                     "order": 1
                 }
             },
-            "output": [
-                {
+            "output": [{
                     "data_path": "action_result.parameter.days",
                     "data_type": "numeric",
                     "column_name": "Days",
@@ -1450,8 +1442,7 @@
                     "order": 0
                 }
             },
-            "output": [
-                {
+            "output": [{
                     "data_path": "action_result.parameter.query",
                     "data_type": "string",
                     "column_name": "Search Query",

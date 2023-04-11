@@ -82,7 +82,16 @@
                     "data_path": "action_result.parameter.indicator",
                     "data_type": "string",
                     "column_name": "Indicator",
-                    "column_order": 0
+                    "column_order": 0,
+                    "contains": [
+                        "domain",
+                        "hash",
+                        "ip",
+                        "md5",
+                        "sha1",
+                        "sha256",
+                        "url"
+                    ]
                 },
                 {
                     "data_path": "action_result.status",
@@ -112,10 +121,6 @@
                 },
                 {
                     "data_path": "action_result.summary",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.parameter.indicator",
                     "data_type": "string"
                 },
                 {
@@ -197,7 +202,10 @@
                     "data_path": "action_result.parameter.campaign",
                     "data_type": "string",
                     "column_name": "Campaign",
-                    "column_order": 0
+                    "column_order": 0,
+                    "contains": [
+                        "mandiant campaign"
+                    ]
                 },
                 {
                     "data_path": "action_result.status",
@@ -488,7 +496,10 @@
                     "data_path": "action_result.parameter.threat_actor",
                     "data_type": "string",
                     "column_name": "Threat Actor",
-                    "column_order": 0
+                    "column_order": 0,
+                    "contains": [
+                        "mandiant threatactor"
+                    ]
                 },
                 {
                     "data_path": "action_result.status",
@@ -836,7 +847,11 @@
                     "data_path": "action_result.parameter.vulnerability",
                     "data_type": "string",
                     "column_name": "Path",
-                    "column_order": 0
+                    "column_order": 0,
+                    "contains": [
+                        "mandiant vulnerability",
+                        "cve"
+                    ]
                 },
                 {
                     "data_path": "action_result.status",
@@ -1119,7 +1134,10 @@
                     "data_path": "action_result.parameter.malware_family",
                     "data_type": "string",
                     "column_name": "Path",
-                    "column_order": 0
+                    "column_order": 0,
+                    "contains": [
+                        "mandiant malwarefamily"
+                    ]
                 },
                 {
                     "data_path": "action_result.status",
@@ -1298,7 +1316,10 @@
                     "data_path": "action_result.parameter.report_id",
                     "data_type": "string",
                     "column_name": "Report ID",
-                    "column_order": 0
+                    "column_order": 0,
+                    "contains": [
+                        "mandiant report"
+                    ]
                 },
                 {
                     "data_path": "action_result.status",

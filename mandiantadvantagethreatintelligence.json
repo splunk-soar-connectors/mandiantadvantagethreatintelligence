@@ -12,7 +12,7 @@
     "product_version_regex": ".*",
     "publisher": "Mandiant",
     "license": "Copyright (c) Mandiant, 2023",
-    "app_version": "1.1.0",
+    "app_version": "1.0.0",
     "utctime_updated": "2022-07-19T17:56:46.520303Z",
     "package_name": "phantom_mandiantadvantagethreatintelligence",
     "main_module": "mandiantadvantagethreatintelligence_connector.py",
@@ -60,7 +60,7 @@
             "identifier": "indicator_lookup",
             "description": "Retrieve indicator information",
             "type": "investigate",
-            "read_only": false,
+            "read_only": true,
             "parameters": {
                 "indicator": {
                     "description": "Indicator to look up",
@@ -181,7 +181,7 @@
             "identifier": "campaign_lookup",
             "description": "Retrieve campaign information",
             "type": "investigate",
-            "read_only": false,
+            "read_only": true,
             "parameters": {
                 "campaign": {
                     "description": "Campaign to look up",
@@ -472,7 +472,7 @@
             "identifier": "threat_actor_lookup",
             "description": "Retrieve threat actor information",
             "type": "investigate",
-            "read_only": false,
+            "read_only": true,
             "parameters": {
                 "threat_actor": {
                     "description": "Threat actor to look up",
@@ -819,7 +819,7 @@
             "identifier": "vulnerability_lookup",
             "description": "Retrieve vulnerability information",
             "type": "investigate",
-            "read_only": false,
+            "read_only": true,
             "parameters": {
                 "vulnerability": {
                     "description": "CVE ID to look up",
@@ -1103,7 +1103,7 @@
             "identifier": "malware_family_lookup",
             "description": "Retrieve malware family information",
             "type": "investigate",
-            "read_only": false,
+            "read_only": true,
             "parameters": {
                 "malware_family": {
                     "description": "Malware family to look up",
@@ -1282,7 +1282,7 @@
             "identifier": "report_lookup",
             "description": "Retrieve Mandiant report",
             "type": "investigate",
-            "read_only": false,
+            "read_only": true,
             "parameters": {
                 "report_id": {
                     "description": "Report ID to look up",
@@ -1345,7 +1345,7 @@
             "identifier": "report_list",
             "description": "Retrieve Mandiant reports",
             "type": "investigate",
-            "read_only": false,
+            "read_only": true,
             "parameters": {
                 "days": {
                     "description": "Days to retrieve reports from",
@@ -1434,7 +1434,7 @@
             "identifier": "search_mandiant",
             "description": "Search Mandiant Threat Intelligence",
             "type": "investigate",
-            "read_only": false,
+            "read_only": true,
             "parameters": {
                 "query": {
                     "description": "Search query",

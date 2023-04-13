@@ -420,9 +420,14 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
             self.save_progress("Error performing search")
             return action_result.set_status(phantom.APP_ERROR, "Error performing search")
 
-        output = {"objects": response["objects"]}
+        output = {"objects": []}
 
         while True:
+            if not response.get("objects", []):
+                break
+
+            output["objects"].extend(response['objects'])
+
             if len(response["objects"]) != 50:
                 break
 
@@ -433,7 +438,6 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
             if phantom.is_fail(ret_val):
                 self.save_progress("Error performing search")
                 return action_result.set_status(phantom.APP_ERROR, "Error performing search")
-            output["objects"].extend(response["objects"])
 
         self.save_progress("Search performed successfully")
 

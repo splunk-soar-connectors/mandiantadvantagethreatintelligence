@@ -109,7 +109,7 @@ and limitations under the License.
                                             &nbsp;
                                             <span class="fa fa-caret-down" style="font-size: smaller;"></span>
                                         </a>
-                                    {% elif search_result.type == 'report' %}
+                                    {% elif search_result.type == 'report' or search_result.type == 'tmh' %}
                                         <a class="no-word-wrap" href="javascript:;"
                                            onclick="context_menu(this, [{'contains': ['mandiant report'], 'value':'{{ search_result.id }}' }], 0, {{ container.id }}, null, false);">
                                             {{ search_result.name }}
@@ -158,7 +158,7 @@ and limitations under the License.
                                         Malware Family
                                     {% elif search_result.type == 'threat-actor' %}
                                         Threat Actor
-                                    {% elif search_result.type == 'report' %}
+                                    {% elif search_result.type == 'report' or search_result.type == 'tmh' %}
                                         Report
                                     {% elif search_result.type == 'vulnerability' %}
                                         Vulnerability

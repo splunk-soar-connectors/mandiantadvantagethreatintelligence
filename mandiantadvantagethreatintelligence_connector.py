@@ -145,7 +145,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         url = config.get('base_url') + endpoint
 
         try:
-            headers['Authorization'] = f'Bearer {self._state["bearer_token"]}'
+            headers['Authorization'] = f'Bearer {self._state.get("bearer_token")}'
             headers['X-App-Name'] = 'MA-Splunk-SOAR-for-Intel-v1.0.0'
             r = request_func(
                 url,

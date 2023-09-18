@@ -145,7 +145,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         url = config.get('base_url') + endpoint
 
         try:
-            headers['Authorization'] = f'Bearer {self._state["bearer_token"]}'
+            headers['Authorization'] = f'Bearer {self._state.get("bearer_token")}'
             headers['X-App-Name'] = 'MA-Splunk-SOAR-for-Intel-v1.0.0'
             r = request_func(
                 url,
@@ -213,8 +213,16 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         if phantom.is_fail(ret_val):
             self.save_progress("Error getting indicator info")
             return action_result.set_status(phantom.APP_ERROR, "Error getting indicator info")
+        else:
+            indicators = response.get('indicators')
+            if not isinstance(indicators, list):
+                self.save_progress("Error getting indicators list")
+                return action_result.set_status(phantom.APP_ERROR, "Error getting indicators list")
+            elif len(indicators) == 0:
+                self.save_progress("Error, empty indicators list")
+                return action_result.set_status(phantom.APP_ERROR, "Error, empty indicators list")
 
-        indicator = response['indicators'][0]
+        indicator = indicators[0]
         ret_val, response = self._make_rest_call(
             f'v4/indicator/{indicator["type"]}/{indicator["value"]}', action_result, headers=headers, method="get",
             params={"include_campaigns": True}

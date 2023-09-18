@@ -216,11 +216,19 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         else:
             indicators = response.get('indicators')
             if not isinstance(indicators, list):
-                self.save_progress("Error getting indicators list")
-                return action_result.set_status(phantom.APP_ERROR, "Error getting indicators list")
+                # this seems to happen if there are no results. Returning as a valid response
+                self.save_progress("No results from platform")
+                data = {'status': "no results"}
+                action_result.add_data(data)
+                action_result.set_summary(data)
+                return action_result.set_status(phantom.APP_SUCCESS)
             elif len(indicators) == 0:
-                self.save_progress("Error, empty indicators list")
-                return action_result.set_status(phantom.APP_ERROR, "Error, empty indicators list")
+                # does this ever happen and if it does is this an error or also a valid response?
+                self.save_progress("Empty indicators list")
+                data = {'status': "indicators list is empty"}
+                action_result.add_data(data)
+                action_result.set_summary(data)
+                return action_result.set_status(phantom.APP_SUCCESS)
 
         indicator = indicators[0]
         ret_val, response = self._make_rest_call(

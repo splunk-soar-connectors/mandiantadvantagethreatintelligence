@@ -12,7 +12,7 @@
     "product_version_regex": ".*",
     "publisher": "Mandiant",
     "license": "Copyright (c) Mandiant, 2023",
-    "app_version": "2.0.1",
+    "app_version": "1.1.0",
     "utctime_updated": "2022-07-19T17:56:46.520303Z",
     "package_name": "phantom_mandiantadvantagethreatintelligence",
     "main_module": "mandiantadvantagethreatintelligence_connector.py",

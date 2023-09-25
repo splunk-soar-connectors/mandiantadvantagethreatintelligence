@@ -12,7 +12,7 @@
     "product_version_regex": ".*",
     "publisher": "Mandiant",
     "license": "Copyright (c) Mandiant, 2023",
-    "app_version": "9.0.1",
+    "app_version": "2.0.1",
     "utctime_updated": "2022-07-19T17:56:46.520303Z",
     "package_name": "phantom_mandiantadvantagethreatintelligence",
     "main_module": "mandiantadvantagethreatintelligence_connector.py",
@@ -1378,13 +1378,11 @@
                 "days": {
                     "description": "Days to retrieve reports from",
                     "data_type": "numeric",
-                    "primary": true,
                     "order": 0
                 },
                 "report_type": {
                     "description": "Report Type Filter",
                     "data_type": "string",
-                    "default": "",
                     "value_list": [
                         "Actor Profile",
                         "Event Coverage/Implication",
@@ -1468,7 +1466,6 @@
                 "query": {
                     "description": "Search query",
                     "data_type": "string",
-                    "primary": true,
                     "order": 0
                 }
             },

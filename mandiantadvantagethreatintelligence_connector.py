@@ -220,7 +220,11 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
             self.save_progress("Error getting indicator info")
             return action_result.set_status(phantom.APP_ERROR, "Error getting indicator info")
 
-        if not response.get("indicators") or len(response.get("indicators")) == 0:
+        if not response.get("indicators"):
+            self.save_progress("No indicators retrieved from Mandiant")
+            return action_result.set_status(phantom.APP_SUCCESS)
+
+        if len(response['indicators']) == 0:
             self.save_progress("No indicators retrieved from Mandiant")
             return action_result.set_status(phantom.APP_SUCCESS)
 

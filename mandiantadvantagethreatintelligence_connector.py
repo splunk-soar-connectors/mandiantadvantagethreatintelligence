@@ -177,7 +177,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         }
         token_status = self._get_bearer_token(param, force=True)
         if not token_status:
-            return action_result
+            return action_result.set_status(phantom.APP_ERROR, "Test Connectivity Failed")
 
         ret_val, response = self._make_rest_call(
             'v4/entitlements', action_result, params=None, headers=test_headers
@@ -220,7 +220,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
             self.save_progress("Error getting indicator info")
             return action_result.set_status(phantom.APP_ERROR, "Error getting indicator info")
 
-        if not response.get("indicators"):
+        if not response.get("indicators", []):
             self.save_progress("No indicators retrieved from Mandiant")
             return action_result.set_status(phantom.APP_SUCCESS)
 

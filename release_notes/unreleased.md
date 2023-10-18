@@ -1,3 +1,1 @@
 **Unreleased**
-* Fix issue where the Splunk SOAR connector was unable to retrieve a bearer token from Mandiant
-* Fix issue when `indicator lookup` retrieves no results

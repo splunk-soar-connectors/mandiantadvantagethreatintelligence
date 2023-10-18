@@ -145,8 +145,9 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         url = config.get('base_url') + endpoint
 
         try:
-            headers['Authorization'] = f'Bearer {self._state["bearer_token"]}'
-            headers['X-App-Name'] = 'MA-Splunk-SOAR-for-Intel-v1.0.0'
+            if self._state.get("bearer_token"):
+                headers['Authorization'] = f'Bearer {self._state["bearer_token"]}'
+            headers['X-App-Name'] = 'MA-Splunk-SOAR-for-Intel-v1.0.2'
             r = request_func(
                 url,
                 verify=config.get('verify_server_cert', True),
@@ -154,6 +155,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
                 **kwargs
             )
         except Exception as e:
+            self.save_progress(f"Error connecting to server: {str(e)}")
             return RetVal(
                 action_result.set_status(
                     phantom.APP_ERROR, "Error Connecting to server. Details: {0}".format(str(e))
@@ -173,6 +175,10 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         test_headers = {
             "Accept": "application/json"
         }
+        token_status = self._get_bearer_token(param, force=True)
+        if not token_status:
+            return action_result.set_status(phantom.APP_ERROR, "Test Connectivity Failed")
+
         ret_val, response = self._make_rest_call(
             'v4/entitlements', action_result, params=None, headers=test_headers
         )
@@ -213,6 +219,10 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         if phantom.is_fail(ret_val):
             self.save_progress("Error getting indicator info")
             return action_result.set_status(phantom.APP_ERROR, "Error getting indicator info")
+
+        if not response.get("indicators", []):
+            self.save_progress("No indicators retrieved from Mandiant")
+            return action_result.set_status(phantom.APP_SUCCESS, "No indicators retrieved from Mandiant")
 
         indicator = response['indicators'][0]
         ret_val, response = self._make_rest_call(
@@ -564,10 +574,11 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _get_bearer_token(self, param):
+    def _get_bearer_token(self, param, force=False):
         """
         Checks the expiration time of the bearer token (if present), and retrieves a new token if necessary
         :param param: Phantom command parameters
+        :param force: Forces a new token to be retrieved.
         """
         action_result = self.add_action_result(ActionResult(dict(param)))
         current_time = int(time.time())
@@ -575,7 +586,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         token_expired = (self._state.get("bearer_token") is None) or (
                 self._state.get("bearer_token_expiration") <= current_time)
 
-        if token_expired:
+        if token_expired or force:
             config = self.get_config()
             auth = (config.get("api_key"), config.get("secret_key"))
             headers = {
@@ -589,7 +600,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
                                                      method="post")
 
             if phantom.is_fail(ret_val):
-                self.save_progress("Error getting new Bearer Token")
+                self.save_progress(f"Error getting new Bearer Token: {ret_val}")
                 return action_result
 
             self._state['bearer_token'] = response['access_token']

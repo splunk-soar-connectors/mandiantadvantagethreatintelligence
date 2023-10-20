@@ -99,9 +99,7 @@ and limitations under the License.
             </a>
             <br/>
             {% if result.data %}
-                {% autoescape off %}
-                    {{ result.data.0.report }}
-                {% endautoescape %}
+                {{ result.data.0.report|safe }}
             {% endif %}
             <br>
 

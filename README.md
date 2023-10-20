@@ -2,7 +2,7 @@
 # Mandiant Advantage Threat Intelligence
 
 Publisher: Mandiant  
-Connector Version: 1.0.1  
+Connector Version: 1.1.0  
 Product Vendor: Mandiant  
 Product Name: Threat Intelligence for Splunk SOAR  
 Product Version Supported (regex): ".\*"  

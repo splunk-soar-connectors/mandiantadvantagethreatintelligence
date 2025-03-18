@@ -1,6 +1,6 @@
 # File: mandiantadvantagethreatintelligence_connector.py
 #
-# Copyright (c) Mandiant, 2023
+# Copyright (c) Mandiant, 2023-2025
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
 # either express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 
-from __future__ import print_function, unicode_literals
 
 # Phantom App imports
 import datetime
@@ -21,6 +20,7 @@ import json
 import time
 
 import phantom.app as phantom
+
 # Usage of the consts file is recommended
 # from mandiantthreatintelligence_consts import *
 import requests
@@ -29,17 +29,14 @@ from phantom.base_connector import BaseConnector
 
 
 class RetVal(tuple):
-
     def __new__(cls, val1, val2=None):
         return tuple.__new__(RetVal, (val1, val2))
 
 
 class MandiantThreatIntelligenceConnector(BaseConnector):
-
     def __init__(self):
-
         # Call the BaseConnectors init first
-        super(MandiantThreatIntelligenceConnector, self).__init__()
+        super().__init__()
 
         self._state = None
 
@@ -54,11 +51,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         if response.status_code == 204:
             return RetVal(phantom.APP_SUCCESS, {})
 
-        return RetVal(
-            action_result.set_status(
-                phantom.APP_ERROR, "Empty response and no information in the header"
-            ), None
-        )
+        return RetVal(action_result.set_status(phantom.APP_ERROR, "Empty response and no information in the header"), None)
 
     def _process_html_response(self, response, action_result):
         # An html response, treat it like an error
@@ -76,30 +69,23 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         try:
             resp_json = r.json()
         except Exception as e:
-            return RetVal(
-                action_result.set_status(
-                    phantom.APP_ERROR, "Unable to parse JSON response. Error: {0}".format(str(e))
-                ), None
-            )
+            return RetVal(action_result.set_status(phantom.APP_ERROR, f"Unable to parse JSON response. Error: {e!s}"), None)
 
         # Please specify the status codes here
         if 200 <= r.status_code < 399:
             return RetVal(phantom.APP_SUCCESS, resp_json)
 
         # You should process the error returned in the json
-        message = "Error from server. Status Code: {0} Data from server: {1}".format(
-            r.status_code,
-            r.text.replace(u'{', '{{').replace(u'}', '}}')
-        )
+        message = "Error from server. Status Code: {} Data from server: {}".format(r.status_code, r.text.replace("{", "{{").replace("}", "}}"))
 
         return RetVal(action_result.set_status(phantom.APP_ERROR, message), None)
 
     def _process_response(self, r, action_result):
         # store the r_text in debug data, it will get dumped in the logs if the action fails
-        if hasattr(action_result, 'add_debug_data'):
-            action_result.add_debug_data({'r_status_code': r.status_code})
-            action_result.add_debug_data({'r_text': r.text})
-            action_result.add_debug_data({'r_headers': r.headers})
+        if hasattr(action_result, "add_debug_data"):
+            action_result.add_debug_data({"r_status_code": r.status_code})
+            action_result.add_debug_data({"r_text": r.text})
+            action_result.add_debug_data({"r_headers": r.headers})
 
         # it's not content-type that is to be parsed, handle an empty response
         if not r.text:
@@ -108,20 +94,19 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         # Process each 'Content-Type' of response separately
 
         # Process a json response
-        if 'json' in r.headers.get('Content-Type', ''):
+        if "json" in r.headers.get("Content-Type", ""):
             return self._process_json_response(r, action_result)
 
         # Process an HTML response, Do this no matter what the api talks.
         # There is a high chance of a PROXY in between phantom and the rest of
         # world, in case of errors, PROXY's return HTML, this function parses
         # the error and adds it to the action_result.
-        if 'html' in r.headers.get('Content-Type', ''):
+        if "html" in r.headers.get("Content-Type", ""):
             return self._process_html_response(r, action_result)
 
         # everything else is actually an error at this point
-        message = "Can't process response from server. Status Code: {0} Data from server: {1}".format(
-            r.status_code,
-            r.text.replace('{', '{{').replace('}', '}}')
+        message = "Can't process response from server. Status Code: {} Data from server: {}".format(
+            r.status_code, r.text.replace("{", "{{").replace("}", "}}")
         )
 
         return RetVal(action_result.set_status(phantom.APP_ERROR, message), None)
@@ -136,31 +121,19 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         try:
             request_func = getattr(requests, method)
         except AttributeError:
-            return RetVal(
-                action_result.set_status(phantom.APP_ERROR, "Invalid method: {0}".format(method)),
-                resp_json
-            )
+            return RetVal(action_result.set_status(phantom.APP_ERROR, f"Invalid method: {method}"), resp_json)
 
         # Create a URL to connect to
-        url = config.get('base_url') + endpoint
+        url = config.get("base_url") + endpoint
 
         try:
             if self._state.get("bearer_token"):
-                headers['Authorization'] = f'Bearer {self._state["bearer_token"]}'
-            headers['X-App-Name'] = 'MA-Splunk-SOAR-for-Intel-v1.0.2'
-            r = request_func(
-                url,
-                verify=config.get('verify_server_cert', True),
-                headers=headers,
-                **kwargs
-            )
+                headers["Authorization"] = f"Bearer {self._state['bearer_token']}"
+            headers["X-App-Name"] = "MA-Splunk-SOAR-for-Intel-v1.0.2"
+            r = request_func(url, verify=config.get("verify_server_cert", True), headers=headers, **kwargs)
         except Exception as e:
-            self.save_progress(f"Error connecting to server: {str(e)}")
-            return RetVal(
-                action_result.set_status(
-                    phantom.APP_ERROR, "Error Connecting to server. Details: {0}".format(str(e))
-                ), resp_json
-            )
+            self.save_progress(f"Error connecting to server: {e!s}")
+            return RetVal(action_result.set_status(phantom.APP_ERROR, f"Error Connecting to server. Details: {e!s}"), resp_json)
 
         return self._process_response(r, action_result)
 
@@ -172,16 +145,12 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         """
 
         self.save_progress("Connecting to endpoint")
-        test_headers = {
-            "Accept": "application/json"
-        }
+        test_headers = {"Accept": "application/json"}
         token_status = self._get_bearer_token(param, force=True)
         if not token_status:
             return action_result.set_status(phantom.APP_ERROR, "Test Connectivity Failed")
 
-        ret_val, response = self._make_rest_call(
-            'v4/entitlements', action_result, params=None, headers=test_headers
-        )
+        ret_val, response = self._make_rest_call("v4/entitlements", action_result, params=None, headers=test_headers)
 
         if phantom.is_fail(ret_val):
             self.save_progress("Test Connectivity Failed.")
@@ -200,38 +169,28 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         """
         self.save_progress("Connecting to endpoint")
 
-        headers = {
-            "Accept": "application/json"
-        }
-        data = {
-            "requests": [
-                {
-                    "values": [
-                        param.get("indicator")
-                    ]
-                }
-            ]
-        }
+        headers = {"Accept": "application/json"}
+        data = {"requests": [{"values": [param.get("indicator")]}]}
 
         ret_val, response = self._make_rest_call(
-            'v4/indicator', action_result, headers=headers, json=data, method="post", params={"include_campaigns": True}
+            "v4/indicator", action_result, headers=headers, json=data, method="post", params={"include_campaigns": True}
         )
         if phantom.is_fail(ret_val):
             self.save_progress("Error getting indicator info")
             return action_result.set_status(phantom.APP_ERROR, "Error getting indicator info")
         else:
-            indicators = response.get('indicators')
+            indicators = response.get("indicators")
             if not isinstance(indicators, list):
                 # this seems to happen if there are no results. Returning as a valid response
                 self.save_progress("No results from platform")
-                data = {'status': "no results"}
+                data = {"status": "no results"}
                 action_result.add_data(data)
                 action_result.set_summary(data)
                 return action_result.set_status(phantom.APP_SUCCESS)
             elif len(indicators) == 0:
                 # does this ever happen and if it does is this an error or also a valid response?
                 self.save_progress("Empty indicators list")
-                data = {'status': "indicators list is empty"}
+                data = {"status": "indicators list is empty"}
                 action_result.add_data(data)
                 action_result.set_summary(data)
                 return action_result.set_status(phantom.APP_SUCCESS)
@@ -240,10 +199,13 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
             self.save_progress("No indicators retrieved from Mandiant")
             return action_result.set_status(phantom.APP_SUCCESS, "No indicators retrieved from Mandiant")
 
-        indicator = response['indicators'][0]
+        indicator = response["indicators"][0]
         ret_val, response = self._make_rest_call(
-            f'v4/indicator/{indicator["type"]}/{indicator["value"]}', action_result, headers=headers, method="get",
-            params={"include_campaigns": True}
+            f"v4/indicator/{indicator['type']}/{indicator['value']}",
+            action_result,
+            headers=headers,
+            method="get",
+            params={"include_campaigns": True},
         )
         if phantom.is_fail(ret_val):
             self.save_progress("Error getting indicator info")
@@ -258,8 +220,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
                 categories.add(category)
 
         report_ret_val, report_response = self._make_rest_call(
-            f'v4/indicator/{indicator["id"]}/reports', action_result, headers=headers, method="get",
-            params={"include_campaigns": True}
+            f"v4/indicator/{indicator['id']}/reports", action_result, headers=headers, method="get", params={"include_campaigns": True}
         )
 
         if phantom.is_fail(report_ret_val):
@@ -271,18 +232,16 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
             "type": indicator["type"],
             "confidence": indicator["mscore"],
             "categories": list(categories),
-            "attributed_associations": [{"name": a["name"], "type": a["type"]} for a in
-                                        indicator.get("attributed_associations", [])],
+            "attributed_associations": [{"name": a["name"], "type": a["type"]} for a in indicator.get("attributed_associations", [])],
             "first_seen": indicator["first_seen"],
             "last_seen": indicator["last_seen"],
             "reports": report_response.get("reports", []),
-            "campaigns": indicator["campaigns"]
+            "campaigns": indicator["campaigns"],
         }
         if indicator["type"] == "md5":
-            output["associated_md5"] = [h["value"] for h in indicator["associated_hashes"] if h["type"] == "md5"][0]
-            output["associated_sha1"] = [h["value"] for h in indicator["associated_hashes"] if h["type"] == "sha1"][0]
-            output["associated_sha256"] = [h["value"] for h in indicator["associated_hashes"] if h["type"] == "sha256"][
-                0]
+            output["associated_md5"] = next(h["value"] for h in indicator["associated_hashes"] if h["type"] == "md5")
+            output["associated_sha1"] = next(h["value"] for h in indicator["associated_hashes"] if h["type"] == "sha1")
+            output["associated_sha256"] = next(h["value"] for h in indicator["associated_hashes"] if h["type"] == "sha256")
 
         action_result.add_data(output)
 
@@ -296,13 +255,9 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         """
         self.save_progress("Connecting to endpoint")
 
-        headers = {
-            "Accept": "application/json"
-        }
+        headers = {"Accept": "application/json"}
 
-        ret_val, response = self._make_rest_call(
-            f'v4/actor/{param.get("threat_actor")}', action_result, headers=headers, method="get"
-        )
+        ret_val, response = self._make_rest_call(f"v4/actor/{param.get('threat_actor')}", action_result, headers=headers, method="get")
         if phantom.is_fail(ret_val):
             self.save_progress("Error getting threat actor info")
             return action_result.set_status(phantom.APP_ERROR, "Error getting threat actor info")
@@ -312,7 +267,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         output = response
 
         report_ret_val, report_response = self._make_rest_call(
-            f'v4/actor/{param.get("threat_actor")}/reports', action_result, headers=headers, method="get"
+            f"v4/actor/{param.get('threat_actor')}/reports", action_result, headers=headers, method="get"
         )
 
         if phantom.is_fail(report_ret_val):
@@ -322,7 +277,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         self.save_progress("Retrieved threat actor report information")
 
         campaign_ret_val, campaign_response = self._make_rest_call(
-            f'v4/actor/{param.get("threat_actor")}/campaigns', action_result, headers=headers, method="get"
+            f"v4/actor/{param.get('threat_actor')}/campaigns", action_result, headers=headers, method="get"
         )
 
         if phantom.is_fail(campaign_ret_val):
@@ -331,7 +286,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
 
         self.save_progress("Retrieved threat actor campaign information")
 
-        output['campaigns'] = campaign_response['campaigns']
+        output["campaigns"] = campaign_response["campaigns"]
 
         target_locations = []
         for target_location in output["locations"]["target"]:
@@ -352,13 +307,9 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         """
         self.save_progress("Connecting to endpoint")
 
-        headers = {
-            "Accept": "application/json"
-        }
+        headers = {"Accept": "application/json"}
 
-        ret_val, response = self._make_rest_call(
-            f'v4/vulnerability/{param.get("vulnerability")}', action_result, headers=headers, method="get"
-        )
+        ret_val, response = self._make_rest_call(f"v4/vulnerability/{param.get('vulnerability')}", action_result, headers=headers, method="get")
         if phantom.is_fail(ret_val):
             self.save_progress("Error getting vulnerability info")
             return action_result.set_status(phantom.APP_ERROR, "Error getting vulnerability info")
@@ -380,13 +331,9 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         """
         self.save_progress("Connecting to endpoint")
 
-        headers = {
-            "Accept": "application/json"
-        }
+        headers = {"Accept": "application/json"}
 
-        ret_val, response = self._make_rest_call(
-            f'v4/malware/{param.get("malware_family")}', action_result, headers=headers, method="get"
-        )
+        ret_val, response = self._make_rest_call(f"v4/malware/{param.get('malware_family')}", action_result, headers=headers, method="get")
         if phantom.is_fail(ret_val):
             self.save_progress("Error getting malware family info")
             return action_result.set_status(phantom.APP_ERROR, "Error getting malware family info")
@@ -396,7 +343,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         output = response
 
         report_ret_val, report_response = self._make_rest_call(
-            f'v4/malware/{param.get("malware_family")}/reports', action_result, headers=headers, method="get"
+            f"v4/malware/{param.get('malware_family')}/reports", action_result, headers=headers, method="get"
         )
 
         if phantom.is_fail(report_ret_val):
@@ -406,7 +353,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         self.save_progress("Retrieved malware family report information")
 
         campaign_ret_val, campaign_response = self._make_rest_call(
-            f'v4/malware/{param.get("malware_family")}/campaigns', action_result, headers=headers, method="get"
+            f"v4/malware/{param.get('malware_family')}/campaigns", action_result, headers=headers, method="get"
         )
 
         if phantom.is_fail(campaign_ret_val):
@@ -415,7 +362,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
 
         self.save_progress("Retrieved malware family campaign information")
 
-        output['campaigns'] = campaign_response['campaigns']
+        output["campaigns"] = campaign_response["campaigns"]
 
         output["reports"] = report_response.get("reports", [])
 
@@ -431,17 +378,11 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         """
         self.save_progress("Connecting to endpoint")
 
-        headers = {
-            "Accept": "application/json"
-        }
+        headers = {"Accept": "application/json"}
 
-        data = {
-            "search": param.get("query")
-        }
+        data = {"search": param.get("query")}
 
-        ret_val, response = self._make_rest_call(
-            'v4/search', action_result, headers=headers, method="post", json=data
-        )
+        ret_val, response = self._make_rest_call("v4/search", action_result, headers=headers, method="post", json=data)
         if phantom.is_fail(ret_val):
             self.save_progress("Error performing search")
             return action_result.set_status(phantom.APP_ERROR, "Error performing search")
@@ -452,15 +393,13 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
             if not response.get("objects", []):
                 break
 
-            output["objects"].extend(response['objects'])
+            output["objects"].extend(response["objects"])
 
             if len(response["objects"]) != 50:
                 break
 
             data["next"] = response["next"]
-            ret_val, response = self._make_rest_call(
-                'v4/search', action_result, headers=headers, method="post", json=data
-            )
+            ret_val, response = self._make_rest_call("v4/search", action_result, headers=headers, method="post", json=data)
             if phantom.is_fail(ret_val):
                 self.save_progress("Error performing search")
                 return action_result.set_status(phantom.APP_ERROR, "Error performing search")
@@ -479,21 +418,16 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         """
         self.save_progress("Connecting to endpoint")
 
-        headers = {
-            "Accept": "text/html"
-        }
+        headers = {"Accept": "text/html"}
 
-        ret_val, response = self._make_rest_call(
-            f'v4/report/{param.get("report_id")}', action_result, headers=headers, method="get"
-        )
+        ret_val, response = self._make_rest_call(f"v4/report/{param.get('report_id')}", action_result, headers=headers, method="get")
         if phantom.is_fail(ret_val):
             self.save_progress("Error getting report")
             return action_result.set_status(phantom.APP_ERROR, f"Error getting report: {ret_val} {response}")
 
         self.save_progress("Report retrieved successfully")
 
-        output = {'report_id': param.get('report_id'),
-                  'report': response}
+        output = {"report_id": param.get("report_id"), "report": response}
         action_result.add_data(output)
 
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -506,18 +440,12 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         """
         self.save_progress("Connecting to endpoint")
 
-        headers = {
-            "Accept": "application/json"
-        }
+        headers = {"Accept": "application/json"}
 
         current_time = datetime.datetime.now()
-        query = {
-            'start_epoch': int((current_time - datetime.timedelta(days=int(param.get("days", 7)))).timestamp())
-        }
+        query = {"start_epoch": int((current_time - datetime.timedelta(days=int(param.get("days", 7)))).timestamp())}
 
-        ret_val, response = self._make_rest_call(
-            'v4/reports', action_result, headers=headers, params=query, method="get"
-        )
+        ret_val, response = self._make_rest_call("v4/reports", action_result, headers=headers, params=query, method="get")
 
         if phantom.is_fail(ret_val):
             self.save_progress("Error getting reports")
@@ -530,9 +458,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
 
             query = {"next": response["next"]}
 
-            ret_val, response = self._make_rest_call(
-                'v4/reports', action_result, headers=headers, params=query, method="get"
-            )
+            ret_val, response = self._make_rest_call("v4/reports", action_result, headers=headers, params=query, method="get")
 
             if phantom.is_fail(ret_val):
                 self.save_progress("Error getting reports")
@@ -543,9 +469,8 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         self.save_progress("Report retrieved successfully")
 
         if param.get("report_type") and param.get("report_type") != "":
-            new_output = list(
-                filter(lambda r: param.get("report_type").upper() == r["report_type"].upper(), output["objects"]))
-            output['objects'] = new_output
+            new_output = list(filter(lambda r: param.get("report_type").upper() == r["report_type"].upper(), output["objects"]))
+            output["objects"] = new_output
 
         action_result.add_data(output)
 
@@ -559,13 +484,9 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         """
         self.save_progress("Connecting to endpoint")
 
-        headers = {
-            "Accept": "application/json"
-        }
+        headers = {"Accept": "application/json"}
 
-        ret_val, response = self._make_rest_call(
-            f'v4/campaign/{param.get("campaign")}', action_result, headers=headers, method="get"
-        )
+        ret_val, response = self._make_rest_call(f"v4/campaign/{param.get('campaign')}", action_result, headers=headers, method="get")
         if phantom.is_fail(ret_val):
             self.save_progress("Error getting campaign info")
             return action_result.set_status(phantom.APP_ERROR, "Error getting campaign info")
@@ -575,7 +496,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         output = response
 
         report_ret_val, report_response = self._make_rest_call(
-            f'v4/campaign/{param.get("campaign")}/reports', action_result, headers=headers, method="get"
+            f"v4/campaign/{param.get('campaign')}/reports", action_result, headers=headers, method="get"
         )
 
         if phantom.is_fail(report_ret_val):
@@ -599,28 +520,21 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
         current_time = int(time.time())
 
-        token_expired = (self._state.get("bearer_token") is None) or (
-                self._state.get("bearer_token_expiration") <= current_time)
+        token_expired = (self._state.get("bearer_token") is None) or (self._state.get("bearer_token_expiration") <= current_time)
 
         if token_expired or force:
             config = self.get_config()
             auth = (config.get("api_key"), config.get("secret_key"))
-            headers = {
-                "Accept": "application/json"
-            }
-            data = {
-                "grant_type": "client_credentials",
-                "scope": ""
-            }
-            ret_val, response = self._make_rest_call('token', action_result, headers=headers, data=data, auth=auth,
-                                                     method="post")
+            headers = {"Accept": "application/json"}
+            data = {"grant_type": "client_credentials", "scope": ""}
+            ret_val, response = self._make_rest_call("token", action_result, headers=headers, data=data, auth=auth, method="post")
 
             if phantom.is_fail(ret_val):
                 self.save_progress(f"Error getting new Bearer Token: {ret_val}")
                 return action_result
 
-            self._state['bearer_token'] = response['access_token']
-            self._state['bearer_token_expiration'] = current_time + response['expires_in']
+            self._state["bearer_token"] = response["access_token"]
+            self._state["bearer_token_expiration"] = current_time + response["expires_in"]
 
             self.save_progress("Token retrieved successfully")
             return action_result
@@ -641,15 +555,15 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
             return ret_val
 
         function_map = {
-            'test_connectivity': self._handle_test_connectivity,
-            'indicator_lookup': self._handle_indicator_lookup,
-            'campaign_lookup': self._handle_campaign_lookup,
-            'threat_actor_lookup': self._handle_threat_actor_lookup,
-            'vulnerability_lookup': self._handle_vulnerability_lookup,
-            'malware_family_lookup': self._handle_malware_family_lookup,
-            'report_lookup': self._handle_report_lookup,
-            'report_list': self._handle_report_list,
-            'search_mandiant': self._handle_search_mandiant
+            "test_connectivity": self._handle_test_connectivity,
+            "indicator_lookup": self._handle_indicator_lookup,
+            "campaign_lookup": self._handle_campaign_lookup,
+            "threat_actor_lookup": self._handle_threat_actor_lookup,
+            "vulnerability_lookup": self._handle_vulnerability_lookup,
+            "malware_family_lookup": self._handle_malware_family_lookup,
+            "report_lookup": self._handle_report_lookup,
+            "report_list": self._handle_report_list,
+            "search_mandiant": self._handle_search_mandiant,
         }
 
         ret_val = function_map[action_id](param, token_status)
@@ -673,7 +587,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         optional_config_name = config.get('optional_config_name')
         """
 
-        self._base_url = config.get('base_url')
+        self._base_url = config.get("base_url")
 
         return phantom.APP_SUCCESS
 
@@ -688,9 +602,9 @@ def main():
 
     argparser = argparse.ArgumentParser()
 
-    argparser.add_argument('input_test_json', help='Input Test JSON file')
-    argparser.add_argument('-u', '--username', help='username', required=False)
-    argparser.add_argument('-p', '--password', help='password', required=False)
+    argparser.add_argument("input_test_json", help="Input Test JSON file")
+    argparser.add_argument("-u", "--username", help="username", required=False)
+    argparser.add_argument("-p", "--password", help="password", required=False)
 
     args = argparser.parse_args()
     session_id = None
@@ -701,28 +615,29 @@ def main():
     if username is not None and password is None:
         # User specified a username but not a password, so ask
         import getpass
+
         password = getpass.getpass("Password: ")
 
     if username and password:
         try:
-            login_url = MandiantThreatIntelligenceConnector._get_phantom_base_url() + '/login'
+            login_url = MandiantThreatIntelligenceConnector._get_phantom_base_url() + "/login"
 
             print("Accessing the Login page")
             r = requests.get(login_url, verify=False)
-            csrftoken = r.cookies['csrftoken']
+            csrftoken = r.cookies["csrftoken"]
 
             data = dict()
-            data['username'] = username
-            data['password'] = password
-            data['csrfmiddlewaretoken'] = csrftoken
+            data["username"] = username
+            data["password"] = password
+            data["csrfmiddlewaretoken"] = csrftoken
 
             headers = dict()
-            headers['Cookie'] = 'csrftoken=' + csrftoken
-            headers['Referer'] = login_url
+            headers["Cookie"] = "csrftoken=" + csrftoken
+            headers["Referer"] = login_url
 
             print("Logging into Platform to get the session id")
             r2 = requests.post(login_url, verify=False, data=data, headers=headers)
-            session_id = r2.cookies['sessionid']
+            session_id = r2.cookies["sessionid"]
         except Exception as e:
             print("Unable to get session id from the platform. Error: " + str(e))
             exit(1)
@@ -736,8 +651,8 @@ def main():
         connector.print_progress_message = True
 
         if session_id is not None:
-            in_json['user_session_token'] = session_id
-            connector._set_csrf_info(csrftoken, headers['Referer'])
+            in_json["user_session_token"] = session_id
+            connector._set_csrf_info(csrftoken, headers["Referer"])
 
         ret_val = connector.handle_action(json.dumps(in_json), None)
         print(json.dumps(json.loads(ret_val), indent=4))
@@ -745,5 +660,5 @@ def main():
     exit(0)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

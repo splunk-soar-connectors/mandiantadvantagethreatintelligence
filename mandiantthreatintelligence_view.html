@@ -1,14 +1,15 @@
 {% extends 'widgets/widget_template.html' %}
 {% load custom_template %}
-
-{% block custom_title_prop %}{% if title_logo %}style="background-size: auto 60%; background-position: 50%; background-repeat: no-repeat; background-image: url('/app_resource/{{ title_logo }}');"{% endif %}{% endblock %}
+{% block custom_title_prop %}
+  {% if title_logo %}
+    style="background-size: auto 60%; background-position: 50%; background-repeat: no-repeat; background-image: url('/app_resource/{{ title_logo }}');"
+  {% endif %}
+{% endblock %}
 {% block title1 %}{{ title1 }}{% endblock %}
 {% block title2 %}{{ title2 }}{% endblock %}
-{% block custom_tools %}
-{% endblock %}
-
+{% block custom_tools %}{% endblock %}
 <!--File: mandiantthreatintelligence_view.html
-Copyright (c) Mandiant, 2023
+Copyright (c) Mandiant, 2023-2025
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -21,10 +22,9 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
 either express or implied. See the License for the specific language governing permissions
 and limitations under the License.
 -->
-
-{% block widget_content %} <!-- Main Start Block -->
-
-<style>
+{% block widget_content %}
+  <!-- Main Start Block -->
+  <style>
 .mandiantthreatintelligence-app a:hover {
     text-decoration:underline;
 }
@@ -80,11 +80,17 @@ a.no-word-wrap {
     text-decoration: None !important
 }
 
-</style>
-
-<div class="mandiantthreatintelligence-app" style="overflow: auto; width: 100%; height: 100%; padding-left:10px; padding-right:10px"> <!-- Main Div -->
-  {% for result in results %} <!-- loop for each result -->
-<br>
+  </style>
+  <div class="mandiantthreatintelligence-app"
+       style="overflow: auto;
+              width: 100%;
+              height: 100%;
+              padding-left:10px;
+              padding-right:10px">
+    <!-- Main Div -->
+    {% for result in results %}
+      <!-- loop for each result -->
+      <br>
       {% if result.data %}
         {% for items in result.data %}
           <table class="wf-table-vertical">
@@ -92,10 +98,12 @@ a.no-word-wrap {
               <td>IP</td>
               <td>
                 {% if items.ip %}
-                  <a class="no-word-wrap" href="javascript:;" onclick="context_menu(this, [{'contains': ['ip'], 'value':'{{ items.ip }}' }], 0, {{ container.id }}, null, false);">
-                              {{ items.ip }}
-                              &nbsp;
-                              <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                  <a class="no-word-wrap"
+                     href="javascript:;"
+                     onclick="context_menu(this, [{'contains': ['ip'], 'value':'{{ items.ip }}' }], 0, {{ container.id }}, null, false);">
+                    {{ items.ip }}
+                    &nbsp;
+                    <span class="fa fa-caret-down" style="font-size: smaller;"></span>
                   </a>
                 {% else %}
                   None
@@ -106,11 +114,13 @@ a.no-word-wrap {
               <td>Mac Address</td>
               <td>
                 {% if items.mac %}
-                <a class="no-word-wrap" href="javascript:;" onclick="context_menu(this, [{'contains': ['forescout mac address', 'mac address'], 'value':'{{ items.mac }}' }], 0, {{ container.id }}, null, false);">
-                            {{ items.mac }}
-                            &nbsp;
-                            <span class="fa fa-caret-down" style="font-size: smaller;"></span>
-                </a>
+                  <a class="no-word-wrap"
+                     href="javascript:;"
+                     onclick="context_menu(this, [{'contains': ['forescout mac address', 'mac address'], 'value':'{{ items.mac }}' }], 0, {{ container.id }}, null, false);">
+                    {{ items.mac }}
+                    &nbsp;
+                    <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                  </a>
                 {% else %}
                   None
                 {% endif %}
@@ -120,11 +130,13 @@ a.no-word-wrap {
               <td>Host ID</td>
               <td>
                 {% if items.id %}
-                <a class="no-word-wrap" href="javascript:;" onclick="context_menu(this, [{'contains': ['forescout host id'], 'value':'{{ items.id }}' }], 0, {{ container.id }}, null, false);">
-                            {{ items.id }}
-                            &nbsp;
-                            <span class="fa fa-caret-down" style="font-size: smaller;"></span>
-                </a>
+                  <a class="no-word-wrap"
+                     href="javascript:;"
+                     onclick="context_menu(this, [{'contains': ['forescout host id'], 'value':'{{ items.id }}' }], 0, {{ container.id }}, null, false);">
+                    {{ items.id }}
+                    &nbsp;
+                    <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                  </a>
                 {% else %}
                   None
                 {% endif %}
@@ -156,18 +168,17 @@ a.no-word-wrap {
                   {% endfor %}
                 {% endif %}
               {% endfor %}
-              </table>
-            {% endif %}
+            </table>
+          {% endif %}
         {% endfor %}
       {% else %}
         <h3 class="wf-h4-style">No data found</h3>
       {% endif %}
-
-    <br>
-
-<!------------------- For each Result END ---------------------->
-
-{% endfor %} <!-- loop for each result end -->
-</div> <!-- Main Div -->
-
-{% endblock %} <!-- Main Start Block -->
+      <br>
+      <!------------------- For each Result END ---------------------->
+    {% endfor %}
+    <!-- loop for each result end -->
+  </div>
+  <!-- Main Div -->
+{% endblock %}
+<!-- Main Start Block -->

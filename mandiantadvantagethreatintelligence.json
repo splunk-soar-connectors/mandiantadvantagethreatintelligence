@@ -7,7 +7,7 @@
     "logo": "logo_mandiantthreatintelligence.svg",
     "logo_dark": "logo_mandiantthreatintelligence_dark.svg",
     "product_name": "Threat Intelligence for Splunk SOAR",
-    "python_version": "3",
+    "python_version": ["3.9", "3.13"],
     "fips_compliant": false,
     "product_version_regex": ".*",
     "publisher": "Mandiant",

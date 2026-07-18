@@ -107,7 +107,7 @@ and limitations under the License.
               <td>
                 <a class="no-word-wrap"
                    href="javascript:;"
-                   onclick="context_menu(this, [{'contains': ['mandiant threatactor'], 'value':'{{ threatactor.name }}' }], 0, {{ container.id }}, null, false);">
+                   onclick="context_menu(this, [{'contains': ['mandiant threatactor'], 'value':'{{ threatactor.name|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
                   {{ threatactor.name }}
                   &nbsp;
                   <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -169,7 +169,7 @@ and limitations under the License.
                         <td>
                           <a class="no-word-wrap"
                              href="javascript:;"
-                             onclick="context_menu(this, [{'contains': ['mandiant threatactor'], 'value':'{{ unc.name }}' }], 0, {{ container.id }}, null, false);">
+                             onclick="context_menu(this, [{'contains': ['mandiant threatactor'], 'value':'{{ unc.name|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
                             {{ unc.name }} ({{ unc.attribution_scope }})
                             &nbsp;
                             <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -193,21 +193,21 @@ and limitations under the License.
                         <td>
                           <a class="no-word-wrap"
                              href="javascript:;"
-                             onclick="context_menu(this, [{'contains': ['mandiant location'], 'value':'{{ source_location.region.name }}' }], 0, {{ container.id }}, null, false);">
+                             onclick="context_menu(this, [{'contains': ['mandiant location'], 'value':'{{ source_location.region.name|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
                             {{ source_location.region.name }} ({{ source_location.region.attribution_scope }})
                             &nbsp;
                             <span class="fa fa-caret-down" style="font-size: smaller;"></span>
                           </a> -
                           <a class="no-word-wrap"
                              href="javascript:;"
-                             onclick="context_menu(this, [{'contains': ['mandiant location'], 'value':'{{ source_location.sub_region.name }}' }], 0, {{ container.id }}, null, false);">
+                             onclick="context_menu(this, [{'contains': ['mandiant location'], 'value':'{{ source_location.sub_region.name|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
                             {{ source_location.sub_region.name }} ({{ source_location.sub_region.attribution_scope }})
                             &nbsp;
                             <span class="fa fa-caret-down" style="font-size: smaller;"></span>
                           </a> -
                           <a class="no-word-wrap"
                              href="javascript:;"
-                             onclick="context_menu(this, [{'contains': ['mandiant location'], 'value':'{{ source_location.country.name }}' }], 0, {{ container.id }}, null, false);">
+                             onclick="context_menu(this, [{'contains': ['mandiant location'], 'value':'{{ source_location.country.name|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
                             {{ source_location.country.name }} ({{ source_location.country.attribution_scope }})
                             &nbsp;
                             <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -231,7 +231,7 @@ and limitations under the License.
                         <td>
                           <a class="no-word-wrap"
                              href="javascript:;"
-                             onclick="context_menu(this, [{'contains': ['mandiant location'], 'value':'{{ target_location.id }}' }], 0, {{ container.id }}, null, false);">
+                             onclick="context_menu(this, [{'contains': ['mandiant location'], 'value':'{{ target_location.id|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
                             {{ target_location.region }} - {{ target_location.sub_region }} - {{ target_location.name }} ({{ target_location.attribution_scope }})
                             &nbsp;
                             <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -255,7 +255,7 @@ and limitations under the License.
                         <td>
                           <a class="no-word-wrap"
                              href="javascript:;"
-                             onclick="context_menu(this, [{'contains': ['mandiant identity'], 'value':'{{ industry.id }}' }], 0, {{ container.id }}, null, false);">
+                             onclick="context_menu(this, [{'contains': ['mandiant identity'], 'value':'{{ industry.id|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
                             {{ industry.name }} ({{ industry.attribution_scope }})
                             &nbsp;
                             <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -279,7 +279,7 @@ and limitations under the License.
                         <td>
                           <a class="no-word-wrap"
                              href="javascript:;"
-                             onclick="context_menu(this, [{'contains': ['mandiant malwarefamily'], 'value':'{{ malware.name }}' }], 0, {{ container.id }}, null, false);">
+                             onclick="context_menu(this, [{'contains': ['mandiant malwarefamily'], 'value':'{{ malware.name|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
                             {{ malware.name }} ({{ malware.attribution_scope }})
                             &nbsp;
                             <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -303,7 +303,7 @@ and limitations under the License.
                         <td>
                           <a class="no-word-wrap"
                              href="javascript:;"
-                             onclick="context_menu(this, [{'contains': ['mandiant malware'], 'value':'{{ tool.id }}' }], 0, {{ container.id }}, null, false);">
+                             onclick="context_menu(this, [{'contains': ['mandiant malware'], 'value':'{{ tool.id|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
                             {{ tool.name }} ({{ tool.attribution_scope }})
                             &nbsp;
                             <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -327,7 +327,7 @@ and limitations under the License.
                         <td>
                           <a class="no-word-wrap"
                              href="javascript:;"
-                             onclick="context_menu(this, [{'contains': ['mandiant vulnerability', 'cve'], 'value':'{{ cve.id }}' }], 0, {{ container.id }}, null, false);">
+                             onclick="context_menu(this, [{'contains': ['mandiant vulnerability', 'cve'], 'value':'{{ cve.id|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
                             {{ cve.cve_id }} ({{ cve.attribution_scope }})
                             &nbsp;
                             <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -351,7 +351,7 @@ and limitations under the License.
                         <td>
                           <a class="no-word-wrap"
                              href="javascript:;"
-                             onclick="context_menu(this, [{'contains': ['mandiant report'], 'value':'{{ report.report_id }}' }], 0, {{ container.id }}, null, false);">
+                             onclick="context_menu(this, [{'contains': ['mandiant report'], 'value':'{{ report.report_id|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
                             {{ report.title }}
                             &nbsp;
                             <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -375,7 +375,7 @@ and limitations under the License.
                         <td>
                           <a class="no-word-wrap"
                              href="javascript:;"
-                             onclick="context_menu(this, [{'contains': ['mandiant campaign'], 'value':'{{ campaign.id }}' }], 0, {{ container.id }}, null, false);">
+                             onclick="context_menu(this, [{'contains': ['mandiant campaign'], 'value':'{{ campaign.id|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
                             {{ campaign.name }} - {{ campaign.title }}
                             &nbsp;
                             <span class="fa fa-caret-down" style="font-size: smaller;"></span>

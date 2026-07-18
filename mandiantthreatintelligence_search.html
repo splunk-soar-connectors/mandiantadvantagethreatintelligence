@@ -103,7 +103,7 @@ and limitations under the License.
                   {% if search_result.type == 'malware' %}
                     <a class="no-word-wrap"
                        href="javascript:;"
-                       onclick="context_menu(this, [{'contains': ['mandiant malwarefamily'], 'value':'{{ search_result.name }}' }], 0, {{ container.id }}, null, false);">
+                       onclick="context_menu(this, [{'contains': ['mandiant malwarefamily'], 'value':'{{ search_result.name|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
                       {{ search_result.name }}
                       &nbsp;
                       <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -111,7 +111,7 @@ and limitations under the License.
                   {% elif search_result.type == 'threat-actor' %}
                     <a class="no-word-wrap"
                        href="javascript:;"
-                       onclick="context_menu(this, [{'contains': ['mandiant threatactor'], 'value':'{{ search_result.name }}' }], 0, {{ container.id }}, null, false);">
+                       onclick="context_menu(this, [{'contains': ['mandiant threatactor'], 'value':'{{ search_result.name|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
                       {{ search_result.name }}
                       &nbsp;
                       <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -119,7 +119,7 @@ and limitations under the License.
                   {% elif search_result.type == 'report' or search_result.type == 'tmh' %}
                     <a class="no-word-wrap"
                        href="javascript:;"
-                       onclick="context_menu(this, [{'contains': ['mandiant report'], 'value':'{{ search_result.id }}' }], 0, {{ container.id }}, null, false);">
+                       onclick="context_menu(this, [{'contains': ['mandiant report'], 'value':'{{ search_result.id|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
                       {{ search_result.name }}
                       &nbsp;
                       <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -127,7 +127,7 @@ and limitations under the License.
                   {% elif search_result.type == 'vulnerability' %}
                     <a class="no-word-wrap"
                        href="javascript:;"
-                       onclick="context_menu(this, [{'contains': ['mandiant vulnerability'], 'value':'{{ search_result.id }}' }], 0, {{ container.id }}, null, false);">
+                       onclick="context_menu(this, [{'contains': ['mandiant vulnerability'], 'value':'{{ search_result.id|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
                       {{ search_result.name }}
                       &nbsp;
                       <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -135,7 +135,7 @@ and limitations under the License.
                   {% elif search_result.type == 'url' %}
                     <a class="no-word-wrap"
                        href="javascript:;"
-                       onclick="context_menu(this, [{'contains': ['url'], 'value':'{{ search_result.value }}' }], 0, {{ container.id }}, null, false);">
+                       onclick="context_menu(this, [{'contains': ['url'], 'value':'{{ search_result.value|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
                       {{ search_result.value }}
                       &nbsp;
                       <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -143,7 +143,7 @@ and limitations under the License.
                   {% elif search_result.type == 'fqdn' %}
                     <a class="no-word-wrap"
                        href="javascript:;"
-                       onclick="context_menu(this, [{'contains': ['domain'], 'value':'{{ search_result.value }}' }], 0, {{ container.id }}, null, false);">
+                       onclick="context_menu(this, [{'contains': ['domain'], 'value':'{{ search_result.value|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
                       {{ search_result.value }}
                       &nbsp;
                       <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -151,7 +151,7 @@ and limitations under the License.
                   {% elif search_result.type == 'ipv4' %}
                     <a class="no-word-wrap"
                        href="javascript:;"
-                       onclick="context_menu(this, [{'contains': ['ip'], 'value':'{{ search_result.value }}' }], 0, {{ container.id }}, null, false);">
+                       onclick="context_menu(this, [{'contains': ['ip'], 'value':'{{ search_result.value|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
                       {{ search_result.value }}
                       &nbsp;
                       <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -159,7 +159,7 @@ and limitations under the License.
                   {% elif search_result.type == 'md5' %}
                     <a class="no-word-wrap"
                        href="javascript:;"
-                       onclick="context_menu(this, [{'contains': ['md5'], 'value':'{{ search_result.value }}' }], 0, {{ container.id }}, null, false);">
+                       onclick="context_menu(this, [{'contains': ['md5'], 'value':'{{ search_result.value|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
                       {{ search_result.value }}
                       &nbsp;
                       <span class="fa fa-caret-down" style="font-size: smaller;"></span>

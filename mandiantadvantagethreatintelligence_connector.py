@@ -39,6 +39,8 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         super().__init__()
 
         self._state = None
+        self._bearer_token = None
+        self._bearer_token_expiration = 0
 
         # Variable to hold a base_url in case the app makes REST calls
         # Do note that the app json defines the asset config, so please
@@ -127,8 +129,8 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         url = config.get("base_url") + endpoint
 
         try:
-            if self._state.get("bearer_token"):
-                headers["Authorization"] = f"Bearer {self._state['bearer_token']}"
+            if self._bearer_token:
+                headers["Authorization"] = f"Bearer {self._bearer_token}"
             headers["X-App-Name"] = "MA-Splunk-SOAR-for-Intel-v1.0.2"
             r = request_func(url, verify=config.get("verify_server_cert", True), headers=headers, **kwargs)
         except Exception as e:
@@ -520,7 +522,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
         current_time = int(time.time())
 
-        token_expired = (self._state.get("bearer_token") is None) or (self._state.get("bearer_token_expiration") <= current_time)
+        token_expired = self._bearer_token is None or self._bearer_token_expiration <= current_time
 
         if token_expired or force:
             config = self.get_config()
@@ -533,8 +535,8 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
                 self.save_progress(f"Error getting new Bearer Token: {ret_val}")
                 return action_result
 
-            self._state["bearer_token"] = response["access_token"]
-            self._state["bearer_token_expiration"] = current_time + response["expires_in"]
+            self._bearer_token = response["access_token"]
+            self._bearer_token_expiration = current_time + response["expires_in"]
 
             self.save_progress("Token retrieved successfully")
             return action_result
@@ -574,6 +576,10 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
         # Load the state in initialize, use it to store data
         # that needs to be accessed across actions
         self._state = self.load_state()
+        if not isinstance(self._state, dict):
+            self._state = {}
+        self._state.pop("bearer_token", None)
+        self._state.pop("bearer_token_expiration", None)
 
         # get the asset config
         config = self.get_config()

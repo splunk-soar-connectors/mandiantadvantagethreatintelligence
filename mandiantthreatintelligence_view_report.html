@@ -101,7 +101,7 @@ and limitations under the License.
       <br>
       <a href="https://advantage.mandiant.com/reports/{{ result.data.0.report_id }}">View in Mandiant Advantage</a>
       <br />
-      {% if result.data %}{{ result.data.0.report|safe }}{% endif %}
+      {% if result.data %}{{ result.data.0.report }}{% endif %}
       <br>
       <!------------------- For each Result END ---------------------->
     {% endfor %}

@@ -1,9 +1,9 @@
 # Mandiant Advantage Threat Intelligence
 
-Publisher: Mandiant \
-Connector Version: 1.2.0 \
-Product Vendor: Mandiant \
-Product Name: Threat Intelligence for Splunk SOAR \
+Publisher: Mandiant <br>
+Connector Version: 1.2.0 <br>
+Product Vendor: Mandiant <br>
+Product Name: Threat Intelligence for Splunk SOAR <br>
 Minimum Product Version: 5.5.0
 
 Integrate with Mandiant Threat Intelligence to pull the latest information about indicators
@@ -71,21 +71,21 @@ VARIABLE | REQUIRED | TYPE | DESCRIPTION
 
 ### Supported Actions
 
-[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration \
-[lookup indicator](#action-lookup-indicator) - Retrieve indicator information \
-[lookup campaign](#action-lookup-campaign) - Retrieve campaign information \
-[lookup threat actor](#action-lookup-threat-actor) - Retrieve threat actor information \
-[lookup vulnerability](#action-lookup-vulnerability) - Retrieve vulnerability information \
-[lookup malware family](#action-lookup-malware-family) - Retrieve malware family information \
-[lookup report](#action-lookup-report) - Retrieve Mandiant report \
-[list reports](#action-list-reports) - Retrieve Mandiant reports \
+[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration <br>
+[lookup indicator](#action-lookup-indicator) - Retrieve indicator information <br>
+[lookup campaign](#action-lookup-campaign) - Retrieve campaign information <br>
+[lookup threat actor](#action-lookup-threat-actor) - Retrieve threat actor information <br>
+[lookup vulnerability](#action-lookup-vulnerability) - Retrieve vulnerability information <br>
+[lookup malware family](#action-lookup-malware-family) - Retrieve malware family information <br>
+[lookup report](#action-lookup-report) - Retrieve Mandiant report <br>
+[list reports](#action-list-reports) - Retrieve Mandiant reports <br>
 [search mandiant](#action-search-mandiant) - Search Mandiant Threat Intelligence
 
 ## action: 'test connectivity'
 
 Validate the asset configuration for connectivity using supplied configuration
 
-Type: **test** \
+Type: **test** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -100,7 +100,7 @@ No Output
 
 Retrieve indicator information
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -134,7 +134,7 @@ action_result.data.\*.associated_sha256 | string | `hash` `sha256` | |
 
 Retrieve campaign information
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -216,7 +216,7 @@ action_result.data.\*.target_locations.sub_regions.\*.region | string | | |
 
 Retrieve threat actor information
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -312,7 +312,7 @@ action_result.data.\*.last_activity_time | string | | |
 
 Retrieve vulnerability information
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -392,7 +392,7 @@ action_result.data.\*.vendor_fix_references.\*.url | string | | |
 
 Retrieve malware family information
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -446,7 +446,7 @@ action_result.data.\*.inherently_malicious | numeric | | |
 
 Retrieve Mandiant report
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -471,7 +471,7 @@ action_result.summary | string | | |
 
 Retrieve Mandiant reports
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -498,7 +498,7 @@ action_result.summary | string | | |
 
 Search Mandiant Threat Intelligence
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -523,7 +523,7 @@ ______________________________________________________________________
 
 Auto-generated Splunk SOAR Connector documentation.
 
-Copyright 2025 Splunk Inc.
+Copyright 2026 Splunk Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -1,6 +1,6 @@
 # File: mandiantadvantagethreatintelligence_connector.py
 #
-# Copyright (c) Mandiant, 2023-2025
+# Copyright (c) Mandiant, 2023-2026
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -276,9 +276,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
 
         output = response
 
-        report_ret_val, report_response = self._make_rest_call(
-            f"v4/actor/{threat_actor}/reports", action_result, headers=headers, method="get"
-        )
+        report_ret_val, report_response = self._make_rest_call(f"v4/actor/{threat_actor}/reports", action_result, headers=headers, method="get")
 
         if phantom.is_fail(report_ret_val):
             self.save_progress("Error getting threat actor report info")
@@ -509,9 +507,7 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
 
         output = response
 
-        report_ret_val, report_response = self._make_rest_call(
-            f"v4/campaign/{campaign}/reports", action_result, headers=headers, method="get"
-        )
+        report_ret_val, report_response = self._make_rest_call(f"v4/campaign/{campaign}/reports", action_result, headers=headers, method="get")
 
         if phantom.is_fail(report_ret_val):
             self.save_progress("Error getting campaign report info")

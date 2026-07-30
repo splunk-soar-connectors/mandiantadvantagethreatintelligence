@@ -1,6 +1,6 @@
 # File: mandiantadvantagethreatintelligence_view.py
 #
-# Copyright (c) Mandiant, 2023-2025
+# Copyright (c) Mandiant, 2023-2026
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,6 +14,17 @@
 # and limitations under the License.
 
 # This file is responsible for any manipulation or parsing of data prior to rendering it as part of a widget
+
+from urllib.parse import urlparse
+
+
+def _validated_http_url(value):
+    if not isinstance(value, str):
+        return None
+    parsed = urlparse(value)
+    if parsed.scheme.casefold() not in {"http", "https"} or not parsed.netloc:
+        return None
+    return value
 
 
 def get_ctx_result(result):
@@ -78,6 +89,10 @@ def display_vulnerability(provides, all_app_runs, context):
             ctx_result = get_ctx_result(result)
             if not ctx_result:
                 continue
+
+            for vulnerability in ctx_result.get("data", []):
+                for reference in vulnerability.get("vendor_fix_references", []):
+                    reference["url"] = _validated_http_url(reference.get("url"))
 
             results.append(ctx_result)
     return "mandiantthreatintelligence_view_vulnerability.html"

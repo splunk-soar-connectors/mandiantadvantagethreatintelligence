@@ -10,7 +10,7 @@
 {% block title2 %}{{ title2 }}{% endblock %}
 {% block custom_tools %}{% endblock %}
 <!--File: mandiantthreatintelligence_view_indicator.html
-Copyright (c) Mandiant, 2023-2025
+Copyright (c) Mandiant, 2023-2026
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -108,7 +108,7 @@ and limitations under the License.
                 {% if indicator.type == 'ipv4' %}
                   <a class="no-word-wrap"
                      href="javascript:;"
-                     onclick="context_menu(this, [{'contains': ['ip'], 'value':'{{ indicator.value }}' }], 0, {{ container.id }}, null, false);">
+                     onclick="context_menu(this, [{'contains': ['ip'], 'value':'{{ indicator.value|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
                     {{ indicator.value }}
                     &nbsp;
                     <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -116,7 +116,7 @@ and limitations under the License.
                 {% elif indicator.type == 'fqdn' %}
                   <a class="no-word-wrap"
                      href="javascript:;"
-                     onclick="context_menu(this, [{'contains': ['domain'], 'value':'{{ indicator.value }}' }], 0, {{ container.id }}, null, false);">
+                     onclick="context_menu(this, [{'contains': ['domain'], 'value':'{{ indicator.value|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
                     {{ indicator.value }}
                     &nbsp;
                     <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -128,7 +128,7 @@ and limitations under the License.
                       <td>
                         <a class="no-word-wrap"
                            href="javascript:;"
-                           onclick="context_menu(this, [{'contains': ['hash', 'md5'], 'value':'{{ indicator.associated_md5 }}' }], 0, {{ container.id }}, null, false);">
+                           onclick="context_menu(this, [{'contains': ['hash', 'md5'], 'value':'{{ indicator.associated_md5|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
                           {{ indicator.associated_md5 }}
                           &nbsp;
                           <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -140,7 +140,7 @@ and limitations under the License.
                       <td>
                         <a class="no-word-wrap"
                            href="javascript:;"
-                           onclick="context_menu(this, [{'contains': ['hash', 'sha1'], 'value':'{{ indicator.associated_sha1 }}' }], 0, {{ container.id }}, null, false);">
+                           onclick="context_menu(this, [{'contains': ['hash', 'sha1'], 'value':'{{ indicator.associated_sha1|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
                           {{ indicator.associated_sha1 }}
                           &nbsp;
                           <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -152,7 +152,7 @@ and limitations under the License.
                       <td>
                         <a class="no-word-wrap"
                            href="javascript:;"
-                           onclick="context_menu(this, [{'contains': ['hash', 'sha256'], 'value':'{{ indicator.associated_sha256 }}' }], 0, {{ container.id }}, null, false);">
+                           onclick="context_menu(this, [{'contains': ['hash', 'sha256'], 'value':'{{ indicator.associated_sha256|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
                           {{ indicator.associated_sha256 }}
                           &nbsp;
                           <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -203,7 +203,7 @@ and limitations under the License.
                           {% if attribution.type == 'malware' %}
                             <a class="no-word-wrap"
                                href="javascript:;"
-                               onclick="context_menu(this, [{'contains': ['mandiant malwarefamily'], 'value':'{{ attribution.name }}' }], 0, {{ container.id }}, null, false);">
+                               onclick="context_menu(this, [{'contains': ['mandiant malwarefamily'], 'value':'{{ attribution.name|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
                               {{ attribution.name }}
                               &nbsp;
                               <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -211,7 +211,7 @@ and limitations under the License.
                           {% elif attribution.type == 'threat-actor' %}
                             <a class="no-word-wrap"
                                href="javascript:;"
-                               onclick="context_menu(this, [{'contains': ['mandiant threatactor'], 'value':'{{ attribution.name }}' }], 0, {{ container.id }}, null, false);">
+                               onclick="context_menu(this, [{'contains': ['mandiant threatactor'], 'value':'{{ attribution.name|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
                               {{ attribution.name }}
                               &nbsp;
                               <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -239,7 +239,7 @@ and limitations under the License.
                         <td>
                           <a class="no-word-wrap"
                              href="javascript:;"
-                             onclick="context_menu(this, [{'contains': ['mandiant report'], 'value':'{{ report.report_id }}' }], 0, {{ container.id }}, null, false);">
+                             onclick="context_menu(this, [{'contains': ['mandiant report'], 'value':'{{ report.report_id|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
                             {{ report.title }}
                             &nbsp;
                             <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -263,7 +263,7 @@ and limitations under the License.
                         <td>
                           <a class="no-word-wrap"
                              href="javascript:;"
-                             onclick="context_menu(this, [{'contains': ['mandiant campaign'], 'value':'{{ campaign.id }}' }], 0, {{ container.id }}, null, false);">
+                             onclick="context_menu(this, [{'contains': ['mandiant campaign'], 'value':'{{ campaign.id|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
                             {{ campaign.name }} - {{ campaign.title }}
                             &nbsp;
                             <span class="fa fa-caret-down" style="font-size: smaller;"></span>

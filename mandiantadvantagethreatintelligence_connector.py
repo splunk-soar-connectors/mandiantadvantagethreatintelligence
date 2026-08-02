@@ -28,6 +28,8 @@ import requests
 from phantom.action_result import ActionResult
 from phantom.base_connector import BaseConnector
 
+from mandiantadvantagethreatintelligence_validation import validate_endpoint_path
+
 
 class RetVal(tuple):
     def __new__(cls, val1, val2=None):
@@ -116,6 +118,11 @@ class MandiantThreatIntelligenceConnector(BaseConnector):
 
     def _make_rest_call(self, endpoint, action_result, method="get", headers={}, **kwargs):
         # **kwargs can be any additional parameters that requests.request accepts
+
+        try:
+            validate_endpoint_path(endpoint)
+        except ValueError as exc:
+            return RetVal(action_result.set_status(phantom.APP_ERROR, str(exc)), None)
 
         config = self.get_config()
 

@@ -1,3 +1,1 @@
 **Unreleased**
-
-* Rejected exact dot segments before dispatching Mandiant API requests.

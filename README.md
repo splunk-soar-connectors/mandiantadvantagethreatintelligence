@@ -1,7 +1,7 @@
 # Mandiant Advantage Threat Intelligence
 
 Publisher: Mandiant <br>
-Connector Version: 1.2.1 <br>
+Connector Version: 1.2.2 <br>
 Product Vendor: Mandiant <br>
 Product Name: Threat Intelligence for Splunk SOAR <br>
 Minimum Product Version: 5.5.0

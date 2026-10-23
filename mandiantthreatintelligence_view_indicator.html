@@ -1,4 +1,4 @@
-{% extends 'widgets/widget_template.html' %}
+{% extends "widgets/widget_template.html" %}
 {% load custom_template %}
 {% block custom_title_prop %}
   {% if title_logo %}
@@ -105,7 +105,7 @@ and limitations under the License.
             <tr>
               <th>Value</th>
               <td>
-                {% if indicator.type == 'ipv4' %}
+                {% if indicator.type == "ipv4" %}
                   <a class="no-word-wrap"
                      href="javascript:;"
                      onclick="context_menu(this, [{'contains': ['ip'], 'value':'{{ indicator.value|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
@@ -113,7 +113,7 @@ and limitations under the License.
                     &nbsp;
                     <span class="fa fa-caret-down" style="font-size: smaller;"></span>
                   </a>
-                {% elif indicator.type == 'fqdn' %}
+                {% elif indicator.type == "fqdn" %}
                   <a class="no-word-wrap"
                      href="javascript:;"
                      onclick="context_menu(this, [{'contains': ['domain'], 'value':'{{ indicator.value|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
@@ -121,7 +121,7 @@ and limitations under the License.
                     &nbsp;
                     <span class="fa fa-caret-down" style="font-size: smaller;"></span>
                   </a>
-                {% elif indicator.type == 'md5' %}
+                {% elif indicator.type == "md5" %}
                   <table class="wf-table-vertical">
                     <tr>
                       <td>MD5</td>
@@ -167,10 +167,10 @@ and limitations under the License.
             </tr>
             <tr>
               <th>Type</th>
-              {% if indicator.type == 'ipv4' %}<td>IPv4</td>{% endif %}
-              {% if indicator.type == 'md5' %}<td>MD5</td>{% endif %}
-              {% if indicator.type == 'fqdn' %}<td>FQDN</td>{% endif %}
-              {% if indicator.type == 'url' %}<td>URL</td>{% endif %}
+              {% if indicator.type == "ipv4" %}<td>IPv4</td>{% endif %}
+              {% if indicator.type == "md5" %}<td>MD5</td>{% endif %}
+              {% if indicator.type == "fqdn" %}<td>FQDN</td>{% endif %}
+              {% if indicator.type == "url" %}<td>URL</td>{% endif %}
             </tr>
             <tr>
               <th>Confidence Score</th>
@@ -200,7 +200,7 @@ and limitations under the License.
                     {% for attribution in indicator.attributed_associations %}
                       <tr>
                         <td>
-                          {% if attribution.type == 'malware' %}
+                          {% if attribution.type == "malware" %}
                             <a class="no-word-wrap"
                                href="javascript:;"
                                onclick="context_menu(this, [{'contains': ['mandiant malwarefamily'], 'value':'{{ attribution.name|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
@@ -208,7 +208,7 @@ and limitations under the License.
                               &nbsp;
                               <span class="fa fa-caret-down" style="font-size: smaller;"></span>
                             </a>
-                          {% elif attribution.type == 'threat-actor' %}
+                          {% elif attribution.type == "threat-actor" %}
                             <a class="no-word-wrap"
                                href="javascript:;"
                                onclick="context_menu(this, [{'contains': ['mandiant threatactor'], 'value':'{{ attribution.name|escapejs }}' }], 0, {{ container.id|escapejs }}, null, false);">
